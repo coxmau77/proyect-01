@@ -1,0 +1,11 @@
+/* Modulo 02 - CSS */
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+body {
+    /* border: 2px solid red; */
+    height: 100vh;
+}
