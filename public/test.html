@@ -1,0 +1,87 @@
+<!-- Módulo 06 - tailwind -->
+<!DOCTYPE html>
+<!-- Dark mode enabled -->
+<!-- <html class="dark" lang="es-AR"> -->
+<!-- Dark mode enabled -->
+<html class="dark" lang="es-AR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{tours}}</title>
+    <!-- SVG favicon -->
+    <link rel="icon" type="image/svg+xml" href="./images/icons/brand-icon.svg">
+    <!-- stylesheet tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- my own css -->
+    <link rel="stylesheet" href="./style/main.css">
+</head>
+
+<head>
+
+<body class="bg-gray-100 dark:bg-gray-900 h-screen ">
+
+    <nav class="bg-pink-500 flex h-screen w-96 p-3 flex-col justify-between">
+
+        <div class="flex justify-start items-center">
+            <!-- Logo -->
+            <a href="#" class="flex mr-4">
+                <img src="./images/icons/brand-icon.svg" class="mr-3 h-8" alt="FlowBite Logo" />
+                <span
+                    class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hidden sm:block">{{Brand
+                    Name}}</span>
+            </a>
+        </div>
+
+        <!-- El padre que es ul va a tener las clases para que los hijos() -->
+        <ul>
+            <li>
+                <a href="http://">Menú A</a>
+            </li>
+            <li>
+                <a href="http://">Menú c</a>
+            </li>
+            <li>
+                <a href="http://">Menú c</a>
+            </li>
+        </ul>
+
+
+        <div class="flex flex-wrap justify-between items-center">
+
+
+            <div class="flex items-center lg:order-2">
+                <!-- Botón del menú de usuario -->
+                <button type="button" class="flex mx-3 text-sm rounded-full md:mr-0 " id="user-menu-button"
+                    aria-expanded="false" data-dropdown-toggle="userDropdown">
+
+                    <span class="sr-only">Open user menu</span>
+
+                    <div class="flex items-center gap-2">
+                        <div class="font-medium dark:text-white text-right hidden sm:block">
+                            <p>{{User name}}</p>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{user_email@email.com}}</div>
+                        </div>
+                        <div class="relative">
+                            <img class="w-10 h-10 rounded-full bg-white border-solid border border-gray-400 cursor-pointer"
+                                src="./images/user/user-icon-00.png" alt="User dropdown">
+                            <span
+                                class="bottom-0 left-7 absolute w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-900 rounded-full"></span>
+                        </div>
+                    </div>
+
+                </button>
+
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- contenido de tours con las fechas importantes -->
+    </main>
+
+    <script src="./script/tailwind-scripts.min.js"></script>
+    <script src="./script/tours.js"></script>
+</body>
+
+</html>
