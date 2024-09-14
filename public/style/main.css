@@ -8,3 +8,40 @@
 /* body {
     height: 100vh;
 } */
+
+/* main {
+    background-color: rgb(255, 145, 0);
+    padding: .5rem;
+} */
+
+/* .fecha {
+    display: flex;
+} */
+
+.date-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+mark {
+    background-color: aqua;
+    color: #111827;
+    border-radius: .8vw;
+}
+
+.active {
+    background-color: aqua;
+
+    svg {
+        fill: #111827;
+    }
+}
+
+.add-album {
+    background-color: aqua;
+
+    &:hover {
+        background-color: rgb(0, 187, 187);
+    }
+}

@@ -1,33 +1,300 @@
 <!-- Modulo 01 - HTML -->
+<!-- Módulo 06 - tailwind -->
 <!DOCTYPE html>
-<html lang="es-AR">
+<!-- Dark mode enabled -->
+<!-- <html class="light" lang="es-AR"> -->
+<!-- Dark mode enabled -->
+<html class="dark" lang="es-AR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>proyect 01</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>{{inicio}}</title>
+    <!-- SVG favicon -->
+    <link rel="icon" type="image/svg+xml" href="./images/icons/brand-icon.svg">
+    <!-- stylesheet -->
+    <link href="./style/style-tailwind.min.css" rel="stylesheet" />
+    <!-- my own css -->
+    <link rel="stylesheet" href="./style/main.css">
 </head>
 
-<body>
-    <header class="mi-header" id="mi_header">
+<head>
 
-        <div>
+<body class="bg-gray-100 dark:bg-gray-900">
 
+    <header
+        class="antialiased bg-gray-100 border-b border-gray-300 px-4 lg:px-6 py-2.5 dark:bg-gray-900 dark:border-gray-800">
+        <div class="flex flex-wrap justify-between items-center">
+
+            <div class="flex justify-start items-center">
+                <!-- Logo -->
+                <a href="./" class="flex mr-4">
+                    <img src="./images/icons/brand-icon.svg" class="mr-3 h-8" alt="FlowBite Logo" />
+                    <span
+                        class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hidden sm:block">{{Brand
+                        Name}}</span>
+                </a>
+            </div>
+
+            <div class="flex items-center lg:order-2">
+                <!-- Botón del menú de usuario -->
+                <button type="button" class="flex mx-3 text-sm rounded-full md:mr-0 " id="user-menu-button"
+                    aria-expanded="false" data-dropdown-toggle="userDropdown">
+
+                    <span class="sr-only">Open user menu</span>
+
+                    <div class="flex items-center gap-2">
+                        <div class="font-medium dark:text-white text-right hidden sm:block">
+                            <p id="user_name">{{User name}}</p>
+                            <div id="user_email" class="text-xs text-gray-500 dark:text-gray-400">
+                                {{user_email@email.com}}</div>
+                        </div>
+                        <div class="relative">
+                            <img class="w-10 h-10 rounded-full bg-white border-solid border border-gray-400 cursor-pointer"
+                                src="./images/user/user-icon-00.png" alt="User dropdown">
+                            <span
+                                class="bottom-0 left-7 absolute w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-900 rounded-full"></span>
+                        </div>
+                    </div>
+
+                </button>
+
+                <!-- Menú desplegable -->
+                <div class="hidden z-50 my-4 w-60 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-800 dark:divide-gray-600"
+                    id="userDropdown">
+                    <!-- Contenido del menú -->
+                    <div class="py-3 px-4">
+                        <span id="user_name" class="block text-sm font-semibold text-gray-900 dark:text-white">José
+                            María</span>
+                        <span id="user_email"
+                            class="block text-sm text-gray-500 truncate dark:text-gray-400">jasema@correo.com</span>
+                    </div>
+                    <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="userDropdown">
+                        <li>
+                            <a href="#"
+                                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Mi
+                                perfil</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Ajustes
+                                de cuenta</a>
+                        </li>
+                    </ul>
+                    <!-- Más contenido del menú -->
+                    <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="userDropdown">
+                        <li>
+                            <a href="#"
+                                class="flex items-center justify-between py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <div class="flex">
+                                    <svg class="mr-2 w-4 h-4 text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path
+                                            d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z" />
+                                    </svg>
+                                    Mis likes
+                                </div>
+
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-800 dark:text-green-300">Soon</span>
+
+
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="flex items-center justify-between py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <div class="flex">
+                                    <svg class="mr-2 w-6 h-6 text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path
+                                            d="M2.038 5.61A2.01 2.01 0 0 0 2 6v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-.12-.01-.238-.03-.352l-.866.65-7.89 6.032a2 2 0 0 1-2.429 0L2.884 6.288l-.846-.677Z" />
+                                        <path
+                                            d="M20.677 4.117A1.996 1.996 0 0 0 20 4H4c-.225 0-.44.037-.642.105l.758.607L12 10.742 19.9 4.7l.777-.583Z" />
+                                    </svg>
+
+                                    Mis mensajes
+                                </div>
+
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-800 dark:text-green-300">Soon</span>
+
+
+                            </a>
+                        </li>
+                        <!-- Continuación de otros elementos del menú... -->
+                        <li>
+                            <a href="#"
+                                class="flex items-center justify-between py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                <div class="flex">
+                                    <svg class="mr-2 w-6 h-6 text-gray-400" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                            d="M12 6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm-1.5 8a4 4 0 0 0-4 4 2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-3Zm6.82-3.096a5.51 5.51 0 0 0-2.797-6.293 3.5 3.5 0 1 1 2.796 6.292ZM19.5 18h.5a2 2 0 0 0 2-2 4 4 0 0 0-4-4h-1.1a5.503 5.503 0 0 1-.471.762A5.998 5.998 0 0 1 19.5 18ZM4 7.5a3.5 3.5 0 0 1 5.477-2.889 5.5 5.5 0 0 0-2.796 6.293A3.501 3.501 0 0 1 4 7.5ZM7.1 12H6a4 4 0 0 0-4 4 2 2 0 0 0 2 2h.5a5.998 5.998 0 0 1 3.071-5.238A5.505 5.505 0 0 1 7.1 12Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Mis Amigos
+                                </div>
+
+                                <span
+                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-800 dark:text-green-300">Soon</span>
+
+
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Opciones de sesión de usuario -->
+                    <ul class="py-1 text-gray-500 dark:text-gray-400" aria-labelledby="userDropdown">
+
+                        <li>
+
+                            <a href="#"
+                                class="flex justify-between items-center py-2 px-4 text-sm hover:bg-red-900 dark:hover:bg-pink-600 dark:hover:text-white">
+                                <span class="flex items-center">
+                                    <svg class="mr-2 w-4 h-4 text-primary-600 dark:text-primary-500" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd"
+                                            d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm5.757-1a1 1 0 1 0 0 2h8.486a1 1 0 1 0 0-2H7.757Z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    Log out
+                                </span>
+                                <svg class="w-2.5 h-2.5 text-primary-600 dark:text-primary-500" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 9 4-4-4-4" />
+                                </svg>
+                            </a>
+
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
         </div>
-
     </header>
-    <nav>
-        <ol>
 
-        </ol>
-    </nav>
-    <main>
+    <main class="p-6">
+        <!-- contenido de tours con las fechas importantes -->
+        <h1 id="welcome"
+            class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            Inicio</h1>
 
     </main>
-    <footer>
 
-    </footer>
+    <nav
+        class="flex fixed z-50 h-16 max-w-md -translate-x-1/2 bg-white border border-gray-300 rounded-full bottom-4 left-1/2 dark:bg-gray-800 dark:border-gray-800">
+
+        <!-- <div class="grid h-full max-w-lg grid-cols-5 mx-auto"> -->
+        <div class="flex h-full mx-auto">
+
+            <!-- inicio -->
+            <a href="./" data-tooltip-target="tooltip-home" type="button"
+                class="active inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-blue-200 dark:hover:bg-gray-500 group">
+
+                <svg class="w-7 h-7 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
+                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                </svg>
+                <span class="sr-only">inicio</span>
+            </a>
+            <div id="tooltip-home" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                Inicio
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <!-- tours -->
+            <a href="./tours.html" data-tooltip-target="tooltip-tours" type="button"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-blue-100 dark:hover:bg-gray-700 group">
+                <svg class="w-8 h-8 text-gray-800 dark:text-gray-400 group-hover:text-violet-600 dark:group-hover:text-violet-500"
+                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+                <span class="sr-only">Tours</span>
+            </a>
+            <div id="tooltip-tours" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                Tours
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <!-- add album -->
+            <div class="flex items-center justify-center mx-2">
+                <a href="./album_add.html" data-tooltip-target="tooltip-add" type="button"
+                    class="add-album inline-flex items-center justify-center w-8 h-8 font-medium rounded-full focus:outline-none">
+                    <svg class="w-4 h-4 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 1v16M1 9h16" />
+                    </svg>
+                    <span class="sr-only">Agregar album</span>
+                </a>
+            </div>
+            <div id="tooltip-add" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                Agregar album
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <!-- wiki -->
+            <a href="./wiki.html" data-tooltip-target="tooltip-wiki" type="button"
+                class="inline-flex flex-col items-center justify-center px-5 hover:bg-blue-100 dark:hover:bg-gray-700 group">
+                <svg class="w-8 h-8 text-gray-800 dark:text-gray-400" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11.5c.07 0 .14-.007.207-.021.095.014.193.021.293.021h2a2 2 0 0 0 2-2V7a1 1 0 0 0-1-1h-1a1 1 0 1 0 0 2v11h-2V5a2 2 0 0 0-2-2H5Zm7 4a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h.5a1 1 0 1 1 0 2H13a1 1 0 0 1-1-1Zm-6 4a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1Zm0 3a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1ZM7 6a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H7Zm1 3V8h1v1H8Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+                <span class="sr-only">Wiki</span>
+            </a>
+            <div id="tooltip-wiki" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                Wiki
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+            <!-- Todos los albums -->
+            <a href="./albums.html" data-tooltip-target="tooltip-albums" type="button"
+                class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-blue-100 dark:hover:bg-gray-600 group">
+                <svg class="w-8 h-8 text-gray-800 dark:text-gray-400" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M4.857 3A1.857 1.857 0 0 0 3 4.857v4.286C3 10.169 3.831 11 4.857 11h4.286A1.857 1.857 0 0 0 11 9.143V4.857A1.857 1.857 0 0 0 9.143 3H4.857Zm10 0A1.857 1.857 0 0 0 13 4.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 21 9.143V4.857A1.857 1.857 0 0 0 19.143 3h-4.286Zm-10 10A1.857 1.857 0 0 0 3 14.857v4.286C3 20.169 3.831 21 4.857 21h4.286A1.857 1.857 0 0 0 11 19.143v-4.286A1.857 1.857 0 0 0 9.143 13H4.857ZM18 14a1 1 0 1 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 1 0 2 0v-2h2a1 1 0 1 0 0-2h-2v-2Z"
+                        clip-rule="evenodd" />
+                </svg>
+
+                <span class="sr-only">Albums</span>
+            </a>
+            <div id="tooltip-albums" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                Albums
+                <div class="tooltip-arrow" data-popper-arrow></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bannr con informacion temporal -->
+    <div id="banner" tabindex="-1"
+        class="fixed z-50 flex w-full items-start justify-between gap-8 border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:items-center lg:py-4">
+        <p class="mx-auto text-base text-gray-500 dark:text-gray-400"><span
+                class="font-medium text-gray-900 dark:text-white">Este sitio esta en desarrollo</span> 🌟 aplicamos las
+            prácticas del proyecto <a href="https://github.com/coxmau77/proyect-01" target="_blank"
+                class="font-medium text-gray-900 underline hover:no-underline dark:text-white">paltaformaDisco</a></p>
+        <button data-collapse-toggle="banner" type="button"
+            class="flex items-center rounded-lg p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+
+    <script src="./script/tailwind-scripts.min.js"></script>
 </body>
 
 </html>
