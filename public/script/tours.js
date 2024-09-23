@@ -1,7 +1,7 @@
 // let userName = prompt("Ingresá tu nombre.").toLowerCase();
 let userName = "Pepe Argento";
-// let userAge = parseInt(prompt("Ingresa tu edad."));
-let userAge = 50;
+let userAge = parseInt(prompt("Ingresa tu edad."));
+// let userAge = 17;
 // let userEmail = prompt("Ingresá tu correo electrónico").toLowerCase();
 let userEmail = "pepe@correo.com";
 
@@ -33,6 +33,26 @@ while (userName.length < 3) {
   userName = prompt(
     "Mmmm, tu nombre no puede ser tan corto, ingresa al menos 3 letras"
   ).toLowerCase();
+}
+
+if (userAge < 18) {
+  // No puede comprar tickets
+  errorMessage();
+  lockBuyButton(buy_buttons);
+}
+
+function errorMessage() {
+  alert("No puedes comprar tickets");
+  // swal("Good job!", "You clicked the button!", "error");
+}
+
+function lockBuyButton(btnList) {
+  let i = 0;
+  while (i < btnList.length) {
+    btnList[i].setAttribute("disabled", "");
+    btnList[i].textContent = "No disponible";
+    i++;
+  }
 }
 
 // welcome.innerHTML = `Hola <mark>${userName.toUpperCase()}</mark> de ${userAge} años, Bienvenid@ a tours! te interesaría adquirir tickects ? 🎟️`;
