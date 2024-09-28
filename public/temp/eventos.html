@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos y Tickets</title>
+    <link rel="stylesheet" href="eventos.css">
+</head>
+
+<body>
+
+    <h1>Eventos Disponibles</h1>
+
+    <!-- Lista de eventos -->
+    <ul class="eventos" id="eventos"></ul>
+
+    <!-- Dialog para capturar información del usuario -->
+    <dialog id="usuarioDialog">
+        <form id="usuarioForm">
+            <h2>Ingresa tu información</h2>
+            <input type="text" id="nombre" placeholder="Ingresá tu nombre">
+            <small>Ej: José María</small>
+            <input type="number" id="edad" placeholder="Ingresá tu edad">
+            <small>Debes ser mayor a 18 para comprar</small>
+            <button type="submit">Validar Usuario</button>
+        </form>
+    </dialog>
+
+    <!-- <script src="eventos.js"></script> -->
+    <script src="events.js"></script>
+</body>
+
+</html>

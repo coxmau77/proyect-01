@@ -1,7 +1,45 @@
+let tickets = {
+  river: {
+    lugar: "Estadio river Plate",
+    tickets: 100,
+    sku: "#FWB000",
+    fecha: "2024-10-07",
+    precio: 399.999,
+  },
+  boca: {
+    lugar: "Estadio Boca Juniors",
+    tickets: 300,
+    sku: "#FWB001",
+    fecha: "2024-10-02",
+    precio: 399.999,
+  },
+  movistar: {
+    lugar: "Movistar Arnera",
+    tickets: 1,
+    sku: "#FWB002",
+    fecha: "2024-10-14",
+    precio: 399.999,
+  },
+  obras: {
+    lugar: "Estadio Obras Sanitarias",
+    tickets: 700,
+    sku: "#FWB003",
+    fecha: "2024-10-11",
+    precio: 399.999,
+  },
+  rex: {
+    lugar: "Teatro Gran Rex",
+    tickets: 0,
+    sku: "#FWB004",
+    fecha: "2024-10-01",
+    precio: 399.999,
+  },
+};
+
 // let userName = prompt("Ingresá tu nombre.").toLowerCase();
 let userName = "Pepe Argento";
-let userAge = parseInt(prompt("Ingresa tu edad."));
-// let userAge = 17;
+// let userAge = parseInt(prompt("Ingresa tu edad."));
+let userAge = 17;
 // let userEmail = prompt("Ingresá tu correo electrónico").toLowerCase();
 let userEmail = "pepe@correo.com";
 
@@ -12,11 +50,62 @@ let ticket_icon = document.querySelector("i");
 
 let buy_buttons = document.querySelectorAll(".boton-comprar");
 
+// la informacion y detalles de tours debe proceder del objeto tickes que contiene Código del evento (SKU), lugar, fecha en formato date (mm-dd-yyyy), precio, tickets (que seran la cantidad de tickets disponibles)
+
+// e.g.
+// obras: {
+//   sku: "#FWB004",
+//   fecha: "2024-10-03",
+//   lugar: "Estadio Obras Sanitarias",
+//   precio: 399.999,
+//   tickets: 700,
+// },
+
+// Si existen tickets disponibles el boton se debe habilitar y cambiar su contenido de texto a "Comprar tickets ahora" en caso que no existan tickets disponibles El texto debe decir "Tickets agotados" utilizando una funcion llamada "disableSoldOutButtons()"
+
+// Debes conciderar que no sera posible comprar tickets si el usuario no es mayor de edad
+
+// Al ingresar a tours se debe verificar que exista un usuario para permitir la compra de tickets
+// Se ejecuta la funcion que inicia esta verificacion init()
+// Dentro de esta funcion vamos a elecutar otras funciones para verificar el nombre del usuario, la edad
+// Si es mayor de edad los botones se habilitaran para que se pueda comprar tickets cabe aclarar para esto que de manera predeterminada los botones ya estan inhabilitados (disabled) por lo que la funcion que hace esta verificacion llamara a otra funcion para habilitar los botones en caso que la edad del usuario sea la adecuada
+
 // Si la persona NO completa su nombre deberá comunicarle con un alert que debe completarlo.
-// if (!userName) {
-//   alert("El campo de tu nombre es obligatorio, intentalo nuevamente.");
-//   console.error("El campo de tu nombre es obligatorio, intentalo nuevamente.");
-// }
+
+// Para aquellos lugares que ya no tienen tickets deberás crear una segunda función llamada disableSoldOutButtons que recorra el objeto tickets y deshabilite el botón correspondiente a aquellas fechas ya agotadas.
+
+// Esta función la deberás invocar cada vez que ocurra una compra, es decir con cada ejecución de getTickets
+
+// La informacion de cada elemento con la informacion de tickets debe verse en el html en un <li> con toda la informacion de cada uno de los objetos que tomaremos de ejemplo
+/*
+let tickets = {
+  river: {
+    lugar: "Estadio river Plate",
+    tickets: 100,
+  },
+  boca: {
+    lugar: "Estadio Boca Juniors",
+    tickets: 300,
+  },
+  movistar: {
+    lugar: "Movistar Arnera",
+    tickets: 1,
+  },
+  obras: {
+    sku: "#FWB004",
+    fecha: "2024-10-03",
+    lugar: "Estadio Obras Sanitarias",
+    precio: 399.999,
+    tickets: 700,
+  },
+  rex: {
+    lugar: "Teatro Gran Rex",
+    tickets: 0,
+  },
+};
+*/
+
+// ------------------------
 
 // Si la persona ingresa una sola letra le informamos que al menos deben tener 2 letras y volvemos a pedirle que ingrese nuevamente su nombre.
 // isNaN("t"); // true
@@ -43,7 +132,7 @@ if (userAge < 18) {
 
 function errorMessage() {
   alert("No puedes comprar tickets");
-  // swal("Good job!", "You clicked the button!", "error");
+  swal("Good job!", "You clicked the button!", "error");
 }
 
 function lockBuyButton(btnList) {
