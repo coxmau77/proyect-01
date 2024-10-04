@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Size Example</title>
+    <style>
+        :root {
+
+
+            --light-clr: #FFFFFF;
+            --dark-clr: #1E1E1E;
+            --main-clr: tomato;
+
+            background-color: black;
+            color: var(--light-clr);
+        }
+
+        p {
+            margin: 10px 0;
+            opacity: .8;
+        }
+
+        #dark-clr>section {
+            background-color: var(--dark-clr);
+            padding: 2rem;
+        }
+
+        #light-clr>article {
+            background-color: var(--light-clr);
+            padding: 2rem;
+            color: var(--dark-clr);
+        }
+
+        #main-clr>article {
+            background-color: var(--main-clr);
+            padding: 2rem;
+        }
+
+
+        .opacity {
+            display: flex;
+
+            div {
+                width: 50%;
+            }
+        }
+
+        .opacity-1 {
+            opacity: 1;
+        }
+
+        .opacity-08 {
+            opacity: .8;
+        }
+
+        .opacity-06 {
+            opacity: .6;
+        }
+
+        .opacity-04 {
+            opacity: .4;
+        }
+
+        .opacity-02 {
+            opacity: .2;
+        }
+
+        .opacity-01 {
+            opacity: .1;
+        }
+
+        .opacity-008 {
+            opacity: .08;
+        }
+
+        .opacity-006 {
+            opacity: .06;
+        }
+
+        .opacity-004 {
+            opacity: .04;
+        }
+
+        .opacity-002 {
+            opacity: .02;
+        }
+    </style>
+</head>
+
+<body>
+    <p style="font-size: xx-small;">Este es un texto con font-size: xx-small (9px)</p>
+    <p style="font-size: x-small;">Este es un texto con font-size: x-small (10px)</p>
+    <p style="font-size: small;">Este es un texto con font-size: small (13px)</p>
+    <p style="font-size: medium;">Este es un texto con font-size: medium (16px, predeterminado)</p>
+    <p style="font-size: large;">Este es un texto con font-size: large (18px)</p>
+    <p style="font-size: x-large;">Este es un texto con font-size: x-large (24px)</p>
+    <p style="font-size: xx-large;">Este es un texto con font-size: xx-large (32px)</p>
+
+    <p style="font-size: smaller;">Este es un texto con font-size: smaller (relativo al tamaño del elemento padre)</p>
+    <p style="font-size: larger;">Este es un texto con font-size: larger (relativo al tamaño del elemento padre)</p>
+
+    <div class="opacity">
+        <div id="dark-clr">
+            <section class="opacity-1">opacity: 1;</section>
+            <section class="opacity-08">opacity: .8;</section>
+            <section class="opacity-06">opacity: .6;</section>
+            <section class="opacity-04">opacity: .4;</section>
+            <section class="opacity-02">opacity: .2;</section>
+            <section class="opacity-01">opacity: .1;</section>
+            <section class="opacity-008">opacity: .08;</section>
+            <section class="opacity-006">opacity: .06;</section>
+            <section class="opacity-004">opacity: .04;</section>
+            <section class="opacity-002">opacity: .02;</section>
+        </div>
+        <div id="light-clr">
+            <article class="opacity-1">opacity: 1;</article>
+            <article class="opacity-08">opacity: .8;</article>
+            <article class="opacity-06">opacity: .6;</article>
+            <article class="opacity-04">opacity: .4;</article>
+            <article class="opacity-02">opacity: .2;</article>
+            <article class="opacity-01">opacity: .1;</article>
+            <article class="opacity-008">opacity: .08;</article>
+            <article class="opacity-006">opacity: .06;</article>
+            <article class="opacity-004">opacity: .04;</article>
+            <article class="opacity-002">opacity: .02;</article>
+        </div>
+        <div id="main-clr">
+            <article class="opacity-1">opacity: 1;</article>
+            <article class="opacity-08">opacity: .8;</article>
+            <article class="opacity-06">opacity: .6;</article>
+            <article class="opacity-04">opacity: .4;</article>
+            <article class="opacity-02">opacity: .2;</article>
+            <article class="opacity-01">opacity: .1;</article>
+            <article class="opacity-008">opacity: .08;</article>
+            <article class="opacity-006">opacity: .06;</article>
+            <article class="opacity-004">opacity: .04;</article>
+            <article class="opacity-002">opacity: .02;</article>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

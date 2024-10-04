@@ -1,64 +1,129 @@
- html {
-     background-color: lightblue;
- }
+html {
+    background-color: lightblue;
+}
 
- body {
-     font-family: Arial, sans-serif;
-     margin: .5;
-     padding: 20px;
-     background-color: whitesmoke;
-     height: 94dvh;
- }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0.5;
+    padding: 20px;
+    background-color: tomato;
+    height: 94dvh;
+    width: 100vw;
+    /* font-size: large;
+    font-size: larger;
+    font-size: medium;
+    font-size: small;
+    font-size: smaller;
+    font-size: x-large;
+    font-size: x-small;
+    font-size: xx-large;
+    font-size: xx-small; */
+}
 
- ul.eventos {
-     list-style: none;
-     padding: 0;
- }
+ul.eventos {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
- ul.eventos li {
-     margin-bottom: 10px;
-     padding: 10px;
-     border: 1px solid #ddd;
-     border-radius: 5px;
- }
+ul.eventos li {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
 
- button {
-     padding: 10px 20px;
-     cursor: pointer;
- }
+.eventos li>div {
+    /* background-color: yellowgreen; */
+    text-align: center;
+    display: flex;
+    /* max-width: 120px; */
+    flex-direction: column;
+    gap: 0.4rem;
+}
 
- dialog {
-     padding: 20px;
-     border: none;
-     background: #f9f9f9;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- }
+.eventos>li>section {
+    /* background-color: #007bff54; */
+    display: flex;
+    gap: 1.4rem;
+}
 
- dialog form {
-     display: flex;
-     flex-direction: column;
- }
+.eventos>li>section>svg {
+    /* background-color: greenyellow; */
+    width: 2.4rem;
+    color: #007bff;
+    /* margin: 0; */
+}
 
- dialog form input {
-     margin-bottom: 10px;
-     padding: 10px;
-     border: 1px solid #ddd;
-     border-radius: 5px;
- }
+.eventos>li>div>button {
+    background-color: black;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    min-width: 150px;
+    border: 1px solid black;
+    border-radius: 0.4rem;
+    color: white;
 
- dialog form button {
-     padding: 10px;
-     background-color: #007bff;
-     color: white;
-     border: none;
-     border-radius: 5px;
- }
+    &:hover {
+        background-color: transparent;
+        color: black;
+    }
+}
 
- dialog form button:disabled {
-     background-color: #ccc;
- }
+.eventos>li>div>button>svg {
+    /* background-color: tomato; */
+    width: 1.6rem;
+}
 
- /* #usuarioForm:has(.input-invalid) {
+button:disabled {
+    background-color: transparent !important;
+    color: black !important;
+    cursor: not-allowed !important;
+    opacity: 0.4;
+}
+
+dialog {
+    padding: 20px;
+    border: none;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.8rem;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+}
+
+dialog form input {
+    margin-bottom: 0.2rem;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+dialog form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+dialog form button:disabled {
+    background-color: #ccc;
+}
+
+/* #usuarioForm:has(.input-invalid) {
      input {
          background-color: pink;
      }
@@ -67,8 +132,6 @@
          color: tomato;
      }
  } */
- .input-invalid {
-
-     background-color: pink;
-
- }
+.input-invalid {
+    background-color: pink;
+}

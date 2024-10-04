@@ -52,15 +52,3 @@ button:disabled {
     cursor: not-allowed;
     /* Muestra un cursor de prohibido */
 }
-
-form {
-    /* background-color: bisque; */
-    /* max-width: 320px;
-    margin: 1rem auto;
-    display: flex;
-    flex-direction: column;
-
-    label {
-        color: white;
-    } */
-}
