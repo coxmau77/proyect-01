@@ -1,0 +1,30 @@
+{
+  "name": "proyect-01",
+  "version": "0.0.0",
+  "description": "Plataforma disco",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"node --watch server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coxmau77/proyect-01.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "mongoDB"
+  ],
+  "author": "Mauricio Cox",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/coxmau77/proyect-01/issues"
+  },
+  "homepage": "https://github.com/coxmau77/proyect-01#readme",
+  "dependencies": {
+    "express": "4.21.0"
+  }
+}
