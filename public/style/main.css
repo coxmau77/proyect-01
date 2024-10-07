@@ -52,3 +52,14 @@ button:disabled {
     cursor: not-allowed;
     /* Muestra un cursor de prohibido */
 }
+
+.add-album-form {
+    /* background-color: #ccc; */
+    width: 40%;
+    margin: 2rem auto;
+
+    input {
+        color: #111827;
+        width: 100%;
+    }
+}

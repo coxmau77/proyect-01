@@ -2,6 +2,8 @@
 // Modulo 16 - express que va a hace que /public sea la app que va a ver el usuario
 const express = require("express");
 const path = require("node:path");
+
+// Requerimientos de las rutas
 const userRoute = require("./routes/user.route");
 
 const app = express();

@@ -240,4 +240,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+env.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/node,dotenv,windows,macos,linux,visualstudiocode

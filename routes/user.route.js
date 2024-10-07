@@ -1,69 +1,6 @@
 const express = require("express");
 const route = express.Router();
 
-const personajesSimpson = [
-  {
-    id: 1,
-    nombre: "Bart",
-    apellido: "Simpson",
-    email: "eatmyshorts@email.com",
-    direccion: {
-      calle: "Av. Siempreviva 742",
-      ciudad: "Springfield",
-      pais: "Estados Unidos",
-    },
-    telefonos: ["555-1234", "555-5678"],
-  },
-  {
-    id: 2,
-    nombre: "Homer",
-    apellido: "Simpson",
-    email: "homer.simpson@email.com",
-    direccion: {
-      calle: "Av. Siempreviva 742",
-      ciudad: "Springfield",
-      pais: "Estados Unidos",
-    },
-    telefonos: ["555-8765", "555-4321"],
-  },
-  {
-    id: 3,
-    nombre: "Marge",
-    apellido: "Simpson",
-    email: "marge.simpson@email.com",
-    direccion: {
-      calle: "Av. Siempreviva 742",
-      ciudad: "Springfield",
-      pais: "Estados Unidos",
-    },
-    telefonos: ["555-2468", "555-1357"],
-  },
-  {
-    id: 4,
-    nombre: "Lisa",
-    apellido: "Simpson",
-    email: "lisa.simpson@email.com",
-    direccion: {
-      calle: "Av. Siempreviva 742",
-      ciudad: "Springfield",
-      pais: "Estados Unidos",
-    },
-    telefonos: ["555-9876", "555-6543"],
-  },
-  {
-    id: 5,
-    nombre: "Maggie",
-    apellido: "Simpson",
-    email: "maggie.simpson@email.com",
-    direccion: {
-      calle: "Av. Siempreviva 742",
-      ciudad: "Springfield",
-      pais: "Estados Unidos",
-    },
-    telefonos: ["555-1111", "555-2222"],
-  },
-];
-
 function createUserList(cantUsers) {
   const usuarios = [];
 
@@ -99,22 +36,19 @@ function generarMongoId() {
   );
 }
 
+route.get("/", (request, response) => {
+  response.status(200).send("Esta es la ruta principal backend");
+});
+
 route.get("/all", (request, response) => {
   console.info(`Se crearon ${users.length} usuario/s.`);
   response.status(200).send(users);
 });
 
-route.get("/personajes", (request, response) => {
-  response.status(200).send(personajesSimpson);
-});
-
 route.get("/body", (request, response) => {
-  //   console.log(request.body);
   const { uid, id, name, email, created_at, birthdate, favorite_songs } =
     request.body;
-  // console.log(
-  //   `Name: ${name}, Email: ${email}, Created at: ${created_at}, Birth date: ${birthdate} | Favorite: ${favorite_songs}`
-  // );
+
   const userData = {
     uid,
     id,
@@ -124,6 +58,14 @@ route.get("/body", (request, response) => {
     birthdate,
     favorite_songs,
   };
+  response.status(200).send(userData);
+});
+
+route.post("/signup", (request, response) => {
+  const { name, email, password, confirm_pass, terms } = request.body;
+
+  const userData = { name, email, password, confirm_pass, terms };
+  console.log(userData);
   response.status(200).send(userData);
 });
 
