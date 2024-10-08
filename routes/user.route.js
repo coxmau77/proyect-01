@@ -1,87 +1,70 @@
-const express = require("express");
-const route = express.Router();
+const express = require("express"); // Importar express
+const User = require("../models/user.model"); // Importar el modelo User
+const route = express.Router(); // Crear un enrutador
 
-function createUserList(cantUsers) {
-  const usuarios = [];
-
-  for (let i = 1; i <= cantUsers; i++) {
-    const usuario = {
-      uid: i,
-      id: generarMongoId(), // ID similar al de MongoDB
-      name: `Usuario${i}`,
-      email: `usuario${i}@ejemplo.com`,
-      created_at: new Date().toISOString(), // Fecha de creación
-      birthdate: `1990-05-${Math.ceil(Math.random() * 28)}`, // Fecha de nacimiento aleatoria
-      favorite_songs: [
-        // Lista de canciones favoritas
-        `Song -> ${Math.ceil(Math.random() * 100)}`,
-        `Song -> ${Math.ceil(Math.random() * 100)}`,
-        `Song -> ${Math.ceil(Math.random() * 100)}`,
-      ],
-    };
-    usuarios.push(usuario);
-  }
-
-  return usuarios;
-}
-
-const cantUsers = 30;
-const users = createUserList(cantUsers);
-
-// Función para generar un ID similar al de MongoDB
-function generarMongoId() {
-  return (
-    Math.random().toString(16).substring(2, 10) +
-    Math.random().toString(16).substring(2, 10)
-  );
-}
-
-route.get("/", (request, response) => {
-  response.status(200).send("Esta es la ruta principal backend");
-});
-
-route.get("/all", (request, response) => {
-  console.info(`Se crearon ${users.length} usuario/s.`);
-  response.status(200).send(users);
-});
-
-route.get("/body", (request, response) => {
-  const { uid, id, name, email, created_at, birthdate, favorite_songs } =
-    request.body;
-
-  const userData = {
-    uid,
-    id,
-    name,
-    email,
-    created_at,
-    birthdate,
-    favorite_songs,
-  };
-  response.status(200).send(userData);
-});
-
-route.post("/signup", (request, response) => {
-  const { name, email, password, confirm_pass, terms } = request.body;
-
-  const userData = { name, email, password, confirm_pass, terms };
-  console.log(userData);
-  response.status(200).send(userData);
-});
-
-route.get("/:id", (request, response) => {
-  // Convertir el id a número
-  const id = parseInt(request.params.id);
-  console.log("uid --> ", id);
-  const userFound = users.filter((user) => user.uid === id);
-
-  if (userFound.length > 0) {
-    response.status(200).send(userFound);
-  } else {
-    // Manejo de errores
-    response.status(404).send({ message: "Usuario no encontrado." });
+// Ruta para crear un nuevo usuario
+route.post("/users", async (req, res) => {
+  try {
+    const userData = req.body; // Obtener los datos del cuerpo de la solicitud
+    const newUser = new User(userData); // Crear una nueva instancia de User
+    await newUser.save(); // Guardar el usuario en la base de datos
+    res.status(201).json(newUser); // Responder con el usuario creado
+  } catch (error) {
+    res.status(400).json({ message: error.message }); // Manejar errores
   }
 });
 
-/** Recordar siempre exportar el modulo creado */
+// Ruta para obtener todos los usuarios
+route.get("/users", async (req, res) => {
+  try {
+    const users = await User.find(); // Obtener todos los usuarios
+    res.status(200).json(users); // Responder con la lista de usuarios
+  } catch (error) {
+    res.status(500).json({ message: error.message }); // Manejar errores
+  }
+});
+
+// Ruta para obtener un usuario por su ID
+route.get("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id); // Buscar el usuario por ID
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
+    }
+    res.status(200).json(user); // Responder con el usuario encontrado
+  } catch (error) {
+    res.status(500).json({ message: error.message }); // Manejar errores
+  }
+});
+
+// Ruta para actualizar un usuario
+route.put("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true, // Retornar el documento actualizado
+      runValidators: true, // Aplicar validadores
+    });
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
+    }
+    res.status(200).json(user); // Responder con el usuario actualizado
+  } catch (error) {
+    res.status(400).json({ message: error.message }); // Manejar errores
+  }
+});
+
+// Ruta para eliminar un usuario
+route.delete("/users/:id", async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id); // Buscar y eliminar el usuario por ID
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
+    }
+    res.status(204).send(); // Responder con un estado 204 No Content
+  } catch (error) {
+    res.status(500).json({ message: error.message }); // Manejar errores
+  }
+});
+
+// Exportar el módulo de rutas
 module.exports = route;
