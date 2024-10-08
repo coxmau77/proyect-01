@@ -3,7 +3,7 @@ const User = require("../models/user.model"); // Importar el modelo User
 const route = express.Router(); // Crear un enrutador
 
 // Ruta para crear un nuevo usuario
-route.post("/users", async (req, res) => {
+route.post("/", async (req, res) => {
   try {
     const userData = req.body; // Obtener los datos del cuerpo de la solicitud
     const newUser = new User(userData); // Crear una nueva instancia de User
@@ -15,7 +15,7 @@ route.post("/users", async (req, res) => {
 });
 
 // Ruta para obtener todos los usuarios
-route.get("/users", async (req, res) => {
+route.get("/all", async (req, res) => {
   try {
     const users = await User.find(); // Obtener todos los usuarios
     res.status(200).json(users); // Responder con la lista de usuarios
@@ -25,7 +25,7 @@ route.get("/users", async (req, res) => {
 });
 
 // Ruta para obtener un usuario por su ID
-route.get("/users/:id", async (req, res) => {
+route.get("/:id", async (req, res) => {
   try {
     const user = await User.findById(req.params.id); // Buscar el usuario por ID
     if (!user) {
@@ -38,7 +38,7 @@ route.get("/users/:id", async (req, res) => {
 });
 
 // Ruta para actualizar un usuario
-route.put("/users/:id", async (req, res) => {
+route.put("/:id", async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true, // Retornar el documento actualizado
@@ -54,7 +54,7 @@ route.put("/users/:id", async (req, res) => {
 });
 
 // Ruta para eliminar un usuario
-route.delete("/users/:id", async (req, res) => {
+route.delete("/:id", async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id); // Buscar y eliminar el usuario por ID
     if (!user) {
