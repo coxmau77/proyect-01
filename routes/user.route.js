@@ -1,70 +1,43 @@
-const express = require("express"); // Importar express
-const User = require("../models/user.model"); // Importar el modelo User
-const route = express.Router(); // Crear un enrutador
+const express = require("express");
+const User = require("../models/user.model");
+const route = express.Router();
 
-// Ruta para crear un nuevo usuario
+// Crear un nuevo usuario
 route.post("/", async (req, res) => {
   try {
-    const userData = req.body; // Obtener los datos del cuerpo de la solicitud
-    const newUser = new User(userData); // Crear una nueva instancia de User
-    await newUser.save(); // Guardar el usuario en la base de datos
-    res.status(201).json(newUser); // Responder con el usuario creado
+    const newUser = new User(req.body);
+    await newUser.save();
+    res.status(201).json(newUser);
   } catch (error) {
-    res.status(400).json({ message: error.message }); // Manejar errores
+    res.status(400).json({ message: error.message });
   }
 });
 
-// Ruta para obtener todos los usuarios
-route.get("/all", async (req, res) => {
-  try {
-    const users = await User.find(); // Obtener todos los usuarios
-    res.status(200).json(users); // Responder con la lista de usuarios
-  } catch (error) {
-    res.status(500).json({ message: error.message }); // Manejar errores
-  }
-});
-
-// Ruta para obtener un usuario por su ID
+// Obtener un usuario por ID, excluyendo la contraseña
 route.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id); // Buscar el usuario por ID
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
-    }
-    res.status(200).json(user); // Responder con el usuario encontrado
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message }); // Manejar errores
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Ruta para actualizar un usuario
+// Editar un usuario
 route.put("/:id", async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true, // Retornar el documento actualizado
-      runValidators: true, // Aplicar validadores
+      new: true,
+      runValidators: true,
     });
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
-    }
-    res.status(200).json(user); // Responder con el usuario actualizado
+    if (!user)
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    res.status(200).json(user);
   } catch (error) {
-    res.status(400).json({ message: error.message }); // Manejar errores
+    res.status(400).json({ message: error.message });
   }
 });
 
-// Ruta para eliminar un usuario
-route.delete("/:id", async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id); // Buscar y eliminar el usuario por ID
-    if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" }); // Manejo de errores si no se encuentra
-    }
-    res.status(204).send(); // Responder con un estado 204 No Content
-  } catch (error) {
-    res.status(500).json({ message: error.message }); // Manejar errores
-  }
-});
-
-// Exportar el módulo de rutas
 module.exports = route;

@@ -39,7 +39,7 @@ mark {
 }
 
 .add-album {
-    background-color: aqua;
+    background-color: #00ffff;
 
     &:hover {
         background-color: rgb(0, 187, 187);

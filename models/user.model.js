@@ -40,16 +40,6 @@ const userSchema = new Schema({
         "La contraseña debe contener al menos una letra mayúscula, un número y un carácter especial",
     },
   },
-  confirm_pass: {
-    type: String,
-    required: [true, "Confirmar la contraseña es obligatorio"],
-    validate: {
-      validator: function (value) {
-        return value === this.password;
-      },
-      message: "Las contraseñas no coinciden",
-    },
-  },
   terms: {
     type: Boolean,
     required: [true, "Debes aceptar los términos y condiciones"],

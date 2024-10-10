@@ -1,5 +1,3 @@
-//modulo 15 server.js
-// Modulo 16 - express que va a hace que /public sea la app que va a ver el usuario
 const express = require("express");
 const path = require("node:path");
 // Requerir dotenv
@@ -13,7 +11,7 @@ const userRoute = require("./routes/user.route");
 const albumRoute = require("./routes/album.route");
 
 const app = express();
-const port = process.env.PORT; // Obtener el puerto desde las variables de entorno
+const port = process.env.PORT || 3000; // Obtener el puerto desde las variables de entorno
 
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, "public")));
