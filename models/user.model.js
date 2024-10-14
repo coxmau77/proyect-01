@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 // Definición del esquema del usuario
+// {
+//   "nombre": "pepe",
+//   "email": "pepe@correo.com",
+//   "password": "Pepe@123",
+//   "terms": true
+// }
+
 const userSchema = new Schema({
   nombre: {
     type: String,
