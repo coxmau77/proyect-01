@@ -19,16 +19,16 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    required: [true, "El email es obligatorio"], // Validación: Campo obligatorio
-    lowercase: true, // Convierte el email a minúsculas
-    trim: true, // Elimina espacios en blanco
+    required: [true, "El email es obligatorio"],
+    lowercase: true,
+    trim: true,
+    unique: true, // Asegura que no se puedan registrar dos usuarios con el mismo email
     validate: {
       validator: function (email) {
-        // Expresión regular para validar el formato de un correo electrónico
         const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-        return emailRegex.test(email); // Test para validar el email
+        return emailRegex.test(email);
       },
-      message: "El formato del email no es válido", // Mensaje de error en caso de formato inválido
+      message: "El formato del email no es válido",
     },
   },
   password: {

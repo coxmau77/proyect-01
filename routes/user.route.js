@@ -7,23 +7,60 @@ const route = express.Router();
 // Se espera recibir un cuerpo con los datos del usuario
 route.post("/", async (request, response) => {
   try {
-    const newUser = new User(request.body); // Creamos una nueva instancia de User con los datos del request
-    await newUser.save(); // Guardamos el usuario en la base de datos
-    response.status(201).json(newUser); // Enviamos una respuesta con el nuevo usuario creado
+    const { email } = request.body;
+
+    // Verificar si el email ya está registrado
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return response
+        .status(400)
+        .json({ message: "El email ya está registrado" });
+    }
+
+    const newUser = new User(request.body);
+    await newUser.save();
+    response.status(201).json({
+      message: "Usuario creado exitosamente",
+      user: newUser,
+    });
   } catch (error) {
-    response.status(400).json({ message: error.message }); // Enviamos un error si algo falla en la creación
+    response.status(400).json({ message: error.message });
   }
 });
 
 // Obtener todos los usuarios
-// Ruta: GET /users
+// Ruta: GET /users/all
 // Devuelve un arreglo con todos los usuarios, excluyendo sus contraseñas
 route.get("/all", async (request, response) => {
   try {
-    const users = await User.find().select("-password"); // Buscamos todos los usuarios y excluimos el campo de contraseña
-    response.status(200).json(users); // Enviamos la lista de usuarios
+    const users = await User.find().select("-password"); // Excluimos el campo de contraseña
+    response.status(200).json({
+      message: "Usuarios obtenidos exitosamente",
+      users,
+    });
   } catch (error) {
-    response.status(500).json({ message: error.message }); // Enviamos un error si algo falla en la consulta
+    response.status(500).json({ message: error.message });
+  }
+});
+
+// Buscar un usuario por correo electrónico
+// Ruta: GET /users/email/:email
+route.get("/email/:email", async (request, response) => {
+  try {
+    const email = request.params.email;
+
+    // Buscar el usuario por correo electrónico
+    const user = await User.findOne({ email }).select("-password"); // Excluir la contraseña de la respuesta
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Usuario encontrado exitosamente",
+      user,
+    });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
   }
 });
 
@@ -32,12 +69,17 @@ route.get("/all", async (request, response) => {
 // Se obtiene un usuario basado en el ID, excluyendo el campo de contraseña
 route.get("/:id", async (request, response) => {
   try {
-    const user = await User.findById(request.params.id).select("-password"); // Buscamos el usuario por ID y excluimos la contraseña
-    if (!user)
-      return response.status(404).json({ message: "Usuario no encontrado" }); // Verificamos si existe el usuario
-    response.status(200).json(user); // Enviamos la respuesta con los datos del usuario
+    const user = await User.findById(request.params.id).select("-password"); // Excluimos la contraseña
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Usuario encontrado exitosamente",
+      user,
+    });
   } catch (error) {
-    response.status(500).json({ message: error.message }); // Enviamos un error si algo falla en la consulta
+    response.status(500).json({ message: error.message });
   }
 });
 
@@ -50,11 +92,16 @@ route.put("/:id", async (request, response) => {
       new: true, // Para devolver el usuario actualizado
       runValidators: true, // Para aplicar las validaciones del esquema
     });
-    if (!user)
-      return response.status(404).json({ message: "Usuario no encontrado" }); // Verificamos si el usuario existe
-    response.status(200).json(user); // Enviamos la respuesta con el usuario actualizado
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Usuario actualizado exitosamente",
+      user,
+    });
   } catch (error) {
-    response.status(400).json({ message: error.message }); // Enviamos un error si algo falla en la actualización
+    response.status(400).json({ message: error.message });
   }
 });
 
@@ -67,11 +114,16 @@ route.patch("/:id", async (request, response) => {
       new: true, // Para devolver el usuario actualizado
       runValidators: true, // Para aplicar las validaciones del esquema
     });
-    if (!user)
-      return response.status(404).json({ message: "Usuario no encontrado" }); // Verificamos si el usuario existe
-    response.status(200).json(user); // Enviamos la respuesta con los datos actualizados del usuario
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Usuario actualizado parcialmente con éxito",
+      user,
+    });
   } catch (error) {
-    response.status(400).json({ message: error.message }); // Enviamos un error si algo falla
+    response.status(400).json({ message: error.message });
   }
 });
 
@@ -80,12 +132,16 @@ route.patch("/:id", async (request, response) => {
 // Elimina un usuario de la base de datos
 route.delete("/:id", async (request, response) => {
   try {
-    const user = await User.findByIdAndDelete(request.params.id); // Buscamos y eliminamos el usuario por ID
-    if (!user)
-      return response.status(404).json({ message: "Usuario no encontrado" }); // Verificamos si el usuario existe
-    response.status(204).send(); // Enviamos una respuesta vacía indicando que el usuario fue eliminado
+    const user = await User.findByIdAndDelete(request.params.id);
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Usuario eliminado exitosamente",
+    });
   } catch (error) {
-    response.status(500).json({ message: error.message }); // Enviamos un error si algo falla
+    response.status(500).json({ message: error.message });
   }
 });
 

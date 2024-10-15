@@ -2,11 +2,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const Song = require("./song.model"); // Importamos el esquema de Song
 
+// Definición del esquema de Álbum
 const albumSchema = new Schema({
   titulo: {
     type: String,
     required: [true, "El título del álbum es obligatorio"],
     trim: true,
+    unique: true, // Validación: título único para evitar duplicados
     minLength: [1, "El título debe tener al menos 1 carácter"],
     maxLength: [100, "El título no puede tener más de 100 caracteres"],
   },
@@ -22,7 +24,19 @@ const albumSchema = new Schema({
     required: [true, "El año de lanzamiento es obligatorio"],
     min: [1, "El año de lanzamiento debe ser mayor que 0"],
   },
-  canciones: [Song.schema], // Usamos el esquema de Song
+  canciones: [
+    {
+      type: Song.schema,
+      validate: {
+        validator: function (canciones) {
+          // Validación para evitar canciones duplicadas en el álbum
+          const titulos = canciones.map((cancion) => cancion.titulo);
+          return titulos.length === new Set(titulos).size;
+        },
+        message: "No se pueden agregar canciones duplicadas en el álbum",
+      },
+    },
+  ],
   portada: {
     type: String,
     required: [true, "La URL de la portada es obligatoria"],
