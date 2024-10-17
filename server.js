@@ -1,43 +1,44 @@
+// Iniciar la aplicación
+// startServer();
 const express = require("express");
 const path = require("node:path");
-// Requerir dotenv
-require("dotenv").config();
-
+require("dotenv").config(); // Cargar las variables de entorno desde el archivo .env
 const mongoose = require("mongoose");
-const urlDb = process.env.DB_URI_DRIVERS;
 
-// Requerimientos de las rutas
+// Variables de entorno
+const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
+const port = process.env.PORT || 3000; // Puerto de la aplicación
+
+// Rutas
 const userRoute = require("./routes/user.route");
 const albumRoute = require("./routes/album.route");
 
 const app = express();
-const port = process.env.PORT || 3000; // Obtener el puerto desde las variables de entorno
 
-// Servir archivos estáticos desde la carpeta "public"
+// Middleware para servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, "public")));
 
-// middlewares
-// Middleware app.use(express.json()); para analizar cuerpos de solicitud con formato JSON
+// Middleware para procesar solicitudes con cuerpo en formato JSON
 app.use(express.json());
-app.use("/api/user", userRoute);
-app.use("/api/album", albumRoute);
+
+// Configuración de rutas
+app.use("/api/user", userRoute); // Rutas para usuarios
+app.use("/api/album", albumRoute); // Rutas para álbumes
 
 // Función para conectar a la base de datos y levantar el servidor
 const startServer = async () => {
   try {
-    // Conectar a la base de datos MongoDB (sin las opciones obsoletas)
-    await mongoose.connect(urlDb);
+    await mongoose.connect(urlDb); // Conexión a MongoDB
     console.log("Conexión exitosa a la base de datos");
 
-    // Levantar el servidor si la conexión fue exitosa
+    // Iniciar el servidor en el puerto especificado
     app.listen(port, () => {
-      console.log(`Server listening on http://localhost:${port}`);
+      console.log(`Servidor escuchando en http://localhost:${port}`);
     });
   } catch (error) {
-    // Capturar cualquier error durante la conexión
     console.error("Error al conectar a la base de datos:", error.message);
   }
 };
 
-// Iniciar la aplicación
+// Iniciar el servidor
 startServer();
