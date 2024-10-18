@@ -26,7 +26,6 @@ const albumSchema = new Schema({
   band: {
     type: String,
     required: [true, "El nombre de la banda es obligatorio"], // Validación para asegurar que se proporcione el nombre
-    // // unique: true, // Evitar bandas duplicadas
     trim: true,
     minLength: [3, "El nombre de la banda debe tener al menos 3 caracteres"],
     maxLength: [
