@@ -3,6 +3,11 @@ const Album = require("../models/album.model");
 const Song = require("../models/song.model");
 const route = express.Router();
 
+route.get("/test/123", (req, response) => {
+  // res.send("Funciona okk");
+  response.status(200).json({ message: "Funciona okk" });
+});
+
 // Crear un nuevo álbum
 // Ruta: POST /albums/add
 route.post("/add", async (request, response) => {

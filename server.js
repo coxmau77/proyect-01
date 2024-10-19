@@ -10,8 +10,9 @@ const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
 const port = process.env.PORT || 3000; // Puerto de la aplicación
 
 // Rutas
-const userRoute = require("./routes/user.route");
-const albumRoute = require("./routes/album.route");
+// const userRoute = require("./routes/user.route");
+// const albumRoute = require("./routes/album.route");
+const routes = require("./routes/index.js"); // modularización de las rutas
 
 const app = express();
 
@@ -22,8 +23,9 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 
 // Configuración de rutas
-app.use("/api/user", userRoute); // Rutas para usuarios
-app.use("/api/album", albumRoute); // Rutas para álbumes
+// app.use("/api/user", userRoute); // Rutas para usuarios
+// app.use("/api/album", albumRoute); // Rutas para álbumes
+app.use("/", routes);
 
 // Función para conectar a la base de datos y levantar el servidor
 const startServer = async () => {
