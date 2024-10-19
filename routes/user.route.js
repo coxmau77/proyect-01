@@ -3,6 +3,16 @@ const User = require("../models/user.model");
 const route = express.Router();
 
 /**RUTAS ESTÁTICAS */
+
+// Ruta principal index de usuarios
+// Ruta: GET /api/user
+route.get("/", (request, response) => {
+  response.status(200).json({
+    message:
+      "Ruta default, seria como el index de las rutas donde gestionas todo lo relacionado a gestión de usuarios, alta, baja o modificaciones",
+  });
+});
+
 // Crear un nuevo usuario
 // Ruta: POST /api/user/signin
 // Se espera recibir un cuerpo con los datos del usuario
