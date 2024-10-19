@@ -264,3 +264,161 @@ route.get("/by-title", async (request, response) => {
   ```
 
 Este enfoque te permite buscar un álbum específico por su título de manera eficiente.
+
+## Ruta para encontar todos los usuarios con un limite predeterminado
+
+Para crear una ruta que obtenga todos los usuarios con un límite predeterminado de 10, pero que permita modificar este límite usando un parámetro de consulta (`query parameter`), puedes usar el siguiente código:
+
+### Ruta para obtener usuarios con límite predeterminado y configurable:
+
+```javascript
+// Ruta para obtener usuarios con un límite predeterminado de 10
+route.get("/api/user", async (request, response) => {
+  try {
+    // Obtener el parámetro "limit" de la consulta, con un valor predeterminado de 10
+    const limit = parseInt(request.query.limit) || 10;
+
+    // Obtener los usuarios con el límite especificado
+    const users = await User.find().limit(limit);
+
+    // Verificar si se encontraron usuarios
+    if (users.length === 0) {
+      return response.status(404).json({
+        message: "No se encontraron usuarios",
+      });
+    }
+
+    // Respuesta exitosa con la cantidad de usuarios obtenidos
+    response.status(200).json({
+      message: `Usuarios obtenidos exitosamente. Se encontraron ${users.length} usuario(s).`,
+      users,
+    });
+  } catch (error) {
+    // Manejo de errores
+    response.status(500).json({
+      message: "Error interno del servidor",
+      error: error.message,
+    });
+  }
+});
+```
+
+### Explicación:
+
+1. **Límite predeterminado**: La ruta utiliza un límite predeterminado de 10 usuarios, pero permite modificarlo a través del parámetro de consulta `limit`.
+
+   - Ejemplo: `/api/user?limit=5` devolverá 5 usuarios.
+   - Si no se proporciona el parámetro `limit`, la ruta devolverá 10 usuarios.
+
+2. **Función `limit()` de Mongoose**: Usamos `limit()` para limitar el número de documentos devueltos desde la base de datos.
+
+3. **Manejo de errores**:
+   - Si no se encuentran usuarios, se devuelve un estado `404` con un mensaje claro.
+   - Si ocurre un error en la base de datos o el servidor, se devuelve un estado `500` con un mensaje detallado del error.
+
+### Ejemplo de Consulta:
+
+- **Obtener 5 usuarios**:
+
+  - URL: `/api/user?limit=5`
+
+- **Respuesta exitosa**:
+
+  ```json
+  {
+    "message": "Usuarios obtenidos exitosamente. Se encontraron 5 usuario(s).",
+    "users": [ ... ]  // Lista de usuarios
+  }
+  ```
+
+- **Si no se encuentran usuarios**:
+  ```json
+  {
+    "message": "No se encontraron usuarios"
+  }
+  ```
+
+Este enfoque te permite manejar un límite dinámico para la cantidad de usuarios a devolver, con un valor predeterminado de 10 si no se especifica.
+
+## Ruta para encontrar un usuario por su nombre:
+
+Aquí te dejo una ruta sencilla para **encontrar un usuario por su nombre**. Esta búsqueda devuelve la información del usuario correspondiente, excluyendo la contraseña:
+
+### Ruta para encontrar un usuario por su nombre:
+
+```javascript
+// Ruta para encontrar un usuario por su nombre
+route.get("/api/user/:name", async (request, response) => {
+  try {
+    // Obtener el nombre de los parámetros de la ruta
+    const { name } = request.params;
+
+    // Buscar el primer usuario que coincida con el nombre exacto (insensible a mayúsculas)
+    const user = await User.findOne({
+      name: { $regex: new RegExp(`^${name}$`, "i") }, // Coincidencia exacta insensible a mayúsculas
+    }).select("-password"); // Excluir el campo de contraseña
+
+    // Verificar si se encontró el usuario
+    if (!user) {
+      return response.status(404).json({
+        message: `No se encontró ningún usuario con el nombre: ${name}`,
+      });
+    }
+
+    // Respuesta exitosa con el usuario encontrado
+    response.status(200).json({
+      message: "Usuario encontrado exitosamente",
+      user,
+    });
+  } catch (error) {
+    // Manejo de errores
+    response.status(500).json({
+      message: "Error interno del servidor",
+      error: error.message,
+    });
+  }
+});
+```
+
+### Explicación:
+
+1. **Nombre en los parámetros de la ruta**: El nombre se pasa como un parámetro de la URL (`/api/user/:name`).
+
+   - Por ejemplo, `/api/user/Juan` buscará un usuario llamado "Juan".
+
+2. **Búsqueda insensible a mayúsculas/minúsculas**: Se utiliza una expresión regular con el modificador `"i"` para hacer la búsqueda insensible a mayúsculas/minúsculas.
+
+3. **Exclusión del campo `password`**: Como en las rutas anteriores, se excluye la contraseña para no exponer información sensible.
+
+4. **Manejo de errores**:
+   - Si no se encuentra un usuario, se devuelve un error `404` con un mensaje adecuado.
+   - Si hay un error durante la ejecución, devuelve un error `500`.
+
+### Ejemplo de Consulta:
+
+- **Buscar un usuario llamado "Juan"**:
+
+  - URL: `/api/user/Juan`
+
+- **Respuesta exitosa**:
+
+  ```json
+  {
+    "message": "Usuario encontrado exitosamente",
+    "user": {
+      "_id": "609c0b55d74f8e1b2c3f9e9f",
+      "name": "Juan",
+      "email": "juan@example.com"
+      // Otros campos del usuario (excepto password)
+    }
+  }
+  ```
+
+- **Si no se encuentra el usuario**:
+  ```json
+  {
+    "message": "No se encontró ningún usuario con el nombre: Juan"
+  }
+  ```
+
+Esta ruta te permite encontrar un usuario por su nombre exacto de manera eficiente, manejando correctamente los errores y excluyendo información sensible.
