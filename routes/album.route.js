@@ -3,9 +3,12 @@ const Album = require("../models/album.model");
 const Song = require("../models/song.model");
 const route = express.Router();
 
-route.get("/test/123", (req, response) => {
+route.get("/", (request, response) => {
   // res.send("Funciona okk");
-  response.status(200).json({ message: "Funciona okk" });
+  response.status(200).json({
+    message:
+      "Ruta default, seria como el index de las rutas donde gestionas todo lo relacionado a discos, productos, servicios, etc, etc, etc... y la lista puede seguir",
+  });
 });
 
 // Crear un nuevo álbum
@@ -55,11 +58,16 @@ route.post("/add", async (request, response) => {
   }
 });
 
-// Ruta para obtener todos los álbumes
-// GET /api/album/all
+// Si no se especifica el parámetro limit, se obtendrán 10 álbumes por defecto.
+// Ruta para obtener una cantidad específica de álbumes
+// GET > /api/album/all?limit=3
 route.get("/all", async (request, response) => {
   try {
-    const albums = await Album.find();
+    // Obtener el parámetro "limit" de la consulta, por defecto 10 si no se especifica
+    const limit = parseInt(request.query.limit) || 10;
+
+    // Obtener los álbumes con el límite especificado
+    const albums = await Album.find().limit(limit);
 
     if (albums.length === 0) {
       return response.status(404).json({
@@ -73,6 +81,86 @@ route.get("/all", async (request, response) => {
       albums,
     });
   } catch (error) {
+    response
+      .status(500)
+      .json({ message: "Error interno del servidor", error: error.message });
+  }
+});
+
+// Ruta para obtener álbumes por nombre de banda
+route.get("/by-band", async (request, response) => {
+  try {
+    // Obtener el nombre de la banda desde los parámetros de consulta
+    const { band } = request.query;
+
+    // Verificar si el nombre de la banda fue proporcionado
+    if (!band) {
+      return response.status(400).json({
+        message:
+          "Debes proporcionar el nombre de la banda para realizar la búsqueda.",
+      });
+    }
+
+    // Buscar los álbumes que coincidan con el nombre de la banda (insensible a mayúsculas/minúsculas)
+    const albums = await Album.find({
+      band: { $regex: new RegExp(band, "i") },
+    });
+
+    // Verificar si se encontraron álbumes
+    if (albums.length === 0) {
+      return response.status(404).json({
+        message: `No se encontraron álbumes para la banda: ${band}`,
+      });
+    }
+
+    // Respuesta exitosa con los álbumes encontrados
+    response.status(200).json({
+      message: `Álbumes de la banda '${band}' obtenidos exitosamente.`,
+      albums,
+    });
+  } catch (error) {
+    // Manejo de errores
+    response
+      .status(500)
+      .json({ message: "Error interno del servidor", error: error.message });
+  }
+});
+
+// Ruta para obtener álbum por título
+// GET > /api/album/by-title?title=Appetite for Destruction
+// GET > /api/album/by-title?title=Appetite FOR DestructiON
+route.get("/by-title", async (request, response) => {
+  try {
+    // Obtener el título del álbum desde los parámetros de consulta
+    const { title } = request.query;
+
+    // Verificar si el título fue proporcionado
+    if (!title) {
+      return response.status(400).json({
+        message:
+          "Debes proporcionar el título del álbum para realizar la búsqueda.",
+      });
+    }
+
+    // Buscar el álbum que coincida con el título (insensible a mayúsculas/minúsculas)
+    const album = await Album.findOne({
+      title: { $regex: new RegExp(title, "i") },
+    });
+
+    // Verificar si se encontró el álbum
+    if (!album) {
+      return response.status(404).json({
+        message: `No se encontró ningún álbum con el título: ${title}`,
+      });
+    }
+
+    // Respuesta exitosa con el álbum encontrado
+    response.status(200).json({
+      message: `Álbum con título '${title}' obtenido exitosamente.`,
+      album,
+    });
+  } catch (error) {
+    // Manejo de errores
     response
       .status(500)
       .json({ message: "Error interno del servidor", error: error.message });
