@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{inicio}}</title>
+    <title>{{Signin}}</title>
     <!-- SVG favicon -->
     <link rel="icon" type="image/svg+xml" href="./images/icons/brand-icon.svg">
     <!-- stylesheet -->
@@ -242,12 +242,101 @@
     <main class="p-6">
         <h1 id="welcome"
             class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-            Inicio</h1>
+            Signin</h1>
         <div>
-            <a class="active dark:text-white text-gray-900" href="./index.html">{{index.html}}</a>
-            <a class="dark:text-white text-gray-900" href="./signin.html">{{signin.html}}</a>
+            <a class="dark:text-white text-gray-900" href="./index.html">{{index.html}}</a>
+            <a class="active dark:text-white text-gray-900" href="./signin.html">{{signin.html}}</a>
             <a class="dark:text-white text-gray-900" href="./albums.html">{{albums.html}}</a>
         </div>
+
+        <!-- Formulario de registro de usuario -->
+        <section class="bg-gray-50 dark:bg-gray-900 max-w-lg mx-auto">
+            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div
+                    class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+
+                        <h2
+                            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                            Crear mi cuenta
+                        </h2>
+
+                        <form class="space-y-4 md:space-y-6">
+                            <!-- Nombre -->
+                            <div>
+                                <label for="name"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu
+                                    nombre</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M10 10a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm0 2a6 6 0 0 0-6 6v1h12v-1a6 6 0 0 0-6-6Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="text" name="name" id="name"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-aqua-500 focus:border-aqua-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-aqua-500 dark:focus:border-aqua-500"
+                                        placeholder="José María" required autofocus>
+                                </div>
+                            </div>
+
+                            <!-- Correo -->
+                            <div>
+                                <label for="email"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu
+                                    correo
+                                    electrónico</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                                            <path
+                                                d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+                                            <path
+                                                d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+                                        </svg>
+                                    </div>
+                                    <input type="email" name="email" id="email"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-aqua-500 focus:border-aqua-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-aqua-500 dark:focus:border-aqua-500"
+                                        placeholder="micorreo@email.com" required>
+                                </div>
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div>
+                                <label for="password"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-aqua-500 focus:border-aqua-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-aqua-500 dark:focus:border-aqua-500"
+                                    required>
+                            </div>
+
+                            <!-- Confirmar contraseña -->
+                            <div>
+                                <label for="confirm_pass"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar
+                                    contraseña</label>
+                                <input type="password" id="confirm_pass" placeholder="••••••••"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-aqua-500 focus:border-aqua-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-aqua-500 dark:focus:border-aqua-500"
+                                    required>
+                            </div>
+
+                            <button type="submit"
+                                class="w-full text-white bg-aqua-600 hover:bg-aqua-700 focus:ring-4 focus:outline-none focus:ring-aqua-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-aqua-600 dark:hover:bg-aqua-700 dark:focus:ring-aqua-800">
+                                Crear mi cuenta ahora
+                            </button>
+
+                            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                                ¿Ya tienes una cuenta? <a href="./login.html"
+                                    class="font-medium text-aqua-600 hover:underline dark:text-aqua-500">Inicia sesión
+                                    aquí</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <nav
@@ -258,7 +347,7 @@
 
             <!-- inicio -->
             <a href="./" data-tooltip-target="tooltip-home" type="button"
-                class="active inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-blue-200 dark:hover:bg-gray-500 group">
+                class="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-blue-200 dark:hover:bg-gray-500 group">
 
                 <svg class="w-7 h-7 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

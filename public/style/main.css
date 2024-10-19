@@ -31,7 +31,7 @@ mark {
 }
 
 .active {
-    background-color: rgb(0, 255, 255);
+    background-color: rgba(0, 255, 255, 0.284);
 
     svg {
         fill: #111827;

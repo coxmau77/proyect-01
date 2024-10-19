@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000; // Puerto de la aplicación
 // Rutas
 // const userRoute = require("./routes/user.route");
 // const albumRoute = require("./routes/album.route");
-const routes = require("./routes/index.js"); // modularización de las rutas
+const routes = require("./routes"); // modularización de las rutas
 
 const app = express();
 
