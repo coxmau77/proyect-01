@@ -16,11 +16,11 @@ const routes = require("./routes/index.js"); // modularización de las rutas
 
 const app = express();
 
-// Middleware para servir archivos estáticos desde la carpeta "public"
-app.use(express.static(path.join(__dirname, "public")));
-
 // Middleware para procesar solicitudes con cuerpo en formato JSON
 app.use(express.json());
+
+// Middleware para servir archivos estáticos desde la carpeta "public"
+app.use(express.static(path.join(__dirname, "public")));
 
 // Configuración de rutas
 // app.use("/api/user", userRoute); // Rutas para usuarios

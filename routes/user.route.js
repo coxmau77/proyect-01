@@ -9,7 +9,7 @@ const route = express.Router();
 route.get("/", (request, response) => {
   response.status(200).json({
     message:
-      "Ruta default, seria como el index de las rutas donde gestionas todo lo relacionado a gestión de usuarios, alta, baja o modificaciones",
+      "Ruta Backend default, seria como el index de las rutas donde gestionas todo lo relacionado a usuarios, alta, baja o modificaciones",
   });
 });
 

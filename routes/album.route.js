@@ -7,7 +7,7 @@ route.get("/", (request, response) => {
   // res.send("Funciona okk");
   response.status(200).json({
     message:
-      "Ruta default, seria como el index de las rutas donde gestionas todo lo relacionado a discos, productos, servicios, etc, etc, etc... y la lista puede seguir",
+      "Ruta Backend default, seria como el index de las rutas donde gestionas todo lo relacionado a discos, productos, servicios, etc, etc, etc... y la lista puede seguir",
   });
 });
 
