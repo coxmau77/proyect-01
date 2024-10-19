@@ -3,9 +3,9 @@ const User = require("../models/user.model");
 const route = express.Router();
 
 // Crear un nuevo usuario
-// Ruta: POST /users
+// Ruta: POST /api/user/signin
 // Se espera recibir un cuerpo con los datos del usuario
-route.post("/", async (request, response) => {
+route.post("/signin", async (request, response) => {
   try {
     const { email } = request.body;
 
@@ -14,7 +14,7 @@ route.post("/", async (request, response) => {
     if (existingUser) {
       return response
         .status(400)
-        .json({ message: "El email ya está registrado" });
+        .json({ message: `El email -{ ${email} }- ya es usuario registrado` });
     }
 
     const newUser = new User(request.body);
@@ -34,8 +34,16 @@ route.post("/", async (request, response) => {
 route.get("/all", async (request, response) => {
   try {
     const users = await User.find().select("-password"); // Excluimos el campo de contraseña
+
+    if (users.length === 0) {
+      return response
+        .status(404)
+        .json({ message: "No se encuentran usuarios registrados." });
+    }
+
     response.status(200).json({
       message: "Usuarios obtenidos exitosamente",
+      count: users.length, // Cantidad de usuarios encontrados
       users,
     });
   } catch (error) {
@@ -44,7 +52,7 @@ route.get("/all", async (request, response) => {
 });
 
 // Buscar un usuario por correo electrónico
-// Ruta: GET /users/email/:email
+// Ruta: GET /users/:email
 route.get("/email/:email", async (request, response) => {
   try {
     const email = request.params.email;
@@ -64,12 +72,22 @@ route.get("/email/:email", async (request, response) => {
   }
 });
 
+// Rutas de prueba
+// Ruta: GET /users/prueba
+// Devuelve un mensaje simple para verificar que el servidor está funcionando
+route.get("/prueba", (request, response) => {
+  response.send("Ruta de prueba para verificar el servidor");
+});
+
 // Obtener un usuario por ID
-// Ruta: GET /users/:id
-// Se obtiene un usuario basado en el ID, excluyendo el campo de contraseña
+// Ruta: GET /api/user/:id
 route.get("/:id", async (request, response) => {
+  // console.log(request.params.id);
   try {
-    const user = await User.findById(request.params.id).select("-password"); // Excluimos la contraseña
+    const userId = request.params.id;
+
+    const user = await User.findById(userId).select("-password"); // Excluimos la contraseña
+
     if (!user) {
       return response.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -143,13 +161,6 @@ route.delete("/:id", async (request, response) => {
   } catch (error) {
     response.status(500).json({ message: error.message });
   }
-});
-
-// Rutas de prueba
-// Ruta: GET /users/prueba
-// Devuelve un mensaje simple para verificar que el servidor está funcionando
-route.get("/prueba", (request, response) => {
-  response.send("Ruta de prueba para verificar el servidor");
 });
 
 module.exports = route;

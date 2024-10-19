@@ -1,70 +1,7 @@
-const express = require("express");
-const Album = require("../models/album.model");
-const Song = require("../models/song.model");
-const route = express.Router();
-
-// JSON Canciones de ejemplo
-/** 
-{
-  "titulo": "Rock Classics",
-  "descripcion": "Una colección de los mejores éxitos del rock clásico.",
-  "anio": 1975,
-  "canciones": [
-    {
-      "titulo": "Bohemian Rhapsody",
-      "duracion": 354
-    },
-    {
-      "titulo": "Hotel California",
-      "duracion": 391
-    }
-  ],
-  "portada": "https://example.com/rock-classics-cover.jpg"
-}
-
-{
-  "titulo": "Pop Hits 2024",
-  "descripcion": "Los éxitos más populares del pop moderno.",
-  "anio": 2024,
-  "canciones": [
-    {
-      "titulo": "Shining Stars",
-      "duracion": 210
-    },
-    {
-      "titulo": "Dance All Night",
-      "duracion": 198
-    },
-    {
-      "titulo": "Heartbeat",
-      "duracion": 215
-    }
-  ],
-  "portada": "https://example.com/pop-hits-2024-cover.jpg"
-}
-
-{
-  "titulo": "Electronic Vibes",
-  "descripcion": "Álbum de música electrónica con ritmos intensos y melodías profundas.",
-  "anio": 2019,
-  "canciones": [
-    {
-      "titulo": "Deep Waves",
-      "duracion": 320
-    },
-    {
-      "titulo": "Night Pulse",
-      "duracion": 295
-    },
-    {
-      "titulo": "Electric Dreams",
-      "duracion": 330
-    }
-  ],
-  "portada": "https://example.com/electronic-vibes-cover.jpg"
-}
-
-*/
+// const express = require("express");
+// const Album = require("../models/album.model");
+// const Song = require("../models/song.model");
+// const route = express.Router();
 
 // // Agregar una canción a un álbum
 // route.put("/:id/song/add", async (req, res) => {
