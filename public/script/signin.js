@@ -61,7 +61,7 @@ async function submitForm(userData) {
     delete userData.confirmPassword;
 
     const response = await axios.post(
-      "http://localhost:3000/api/user/signin", // URL del endpoint
+      "/api/user/signin", // URL del endpoint
       userData
     );
     alert(response.data.message || "Usuario creado exitosamente");
