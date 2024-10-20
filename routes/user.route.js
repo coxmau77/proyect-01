@@ -45,7 +45,15 @@ route.post("/signin", async (request, response) => {
       user: newUser,
     });
   } catch (error) {
-    response.status(400).json({ message: error.message });
+    // Captura los mensajes de validación de Mongoose
+    if (error.name === "ValidationError") {
+      const validationErrors = Object.values(error.errors).map(
+        (err) => err.message
+      );
+      return response.status(400).json({ message: validationErrors });
+    }
+
+    response.status(500).json({ message: "Error en el servidor" });
   }
 });
 
