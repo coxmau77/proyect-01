@@ -18,7 +18,7 @@ route.get("/", (request, response) => {
 // Se espera recibir un cuerpo con los datos del usuario
 route.post("/signin", async (request, response) => {
   try {
-    const { email } = request.body;
+    const { email, age } = request.body;
 
     // Verificar si el email ya está registrado
     const existingUser = await User.findOne({ email });
@@ -28,8 +28,18 @@ route.post("/signin", async (request, response) => {
         .json({ message: `El email -{ ${email} }- ya es usuario registrado` });
     }
 
+    // Verificar si la edad cumple con el requisito mínimo
+    if (age < 12) {
+      return response
+        .status(400)
+        .json({ message: "La edad mínima permitida es de 12 años" });
+    }
+
+    // Crear el nuevo usuario
     const newUser = new User(request.body);
     await newUser.save();
+
+    // Respuesta exitosa
     response.status(201).json({
       message: "Usuario creado exitosamente",
       user: newUser,
@@ -60,7 +70,7 @@ route.get("/all", async (request, response) => {
 
     // Respuesta exitosa con la cantidad de usuarios obtenidos
     response.status(200).json({
-      message: `Usuarios obtenidos exitosamente. Se encontraron ${users.length} usuario(s).`,
+      message: `Usuarios obtenidos exitosamente. Se encontraron ${users.length} usuario(s) por default ?limit=10.`,
       count: users.length, // Cantidad de usuarios encontrados
       users,
     });
