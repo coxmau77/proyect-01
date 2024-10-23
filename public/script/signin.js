@@ -34,34 +34,13 @@ function validateFormData(userData) {
 }
 
 // Envía los datos del formulario al backend
-// async function submitForm(userData) {
-//   try {
-//     // Eliminar el campo confirmPassword antes de enviar los datos
-//     delete userData.confirmPassword;
-
-//     const response = await axios.post(
-//       "http://localhost:3000/api/user/signin",
-//       userData
-//     );
-//     alert("Usuario creado exitosamente");
-//     console.log(response.data); // Manejar la respuesta si es necesario
-//   } catch (error) {
-//     if (error.response) {
-//       alert(`Error: ${error.response.data.message}`);
-//     } else {
-//       alert("Error al conectar con el servidor");
-//     }
-//   }
-// }
-
-// Envía los datos del formulario al backend
 async function submitForm(userData) {
   try {
     // Eliminar el campo confirmPassword antes de enviar los datos
     delete userData.confirmPassword;
 
     const response = await axios.post(
-      "/api/user/signin", // URL del endpoint
+      "http://localhost:3000/api/user/signin", // URL del endpoint Resolver CORS
       userData
     );
     alert(response.data.message || "Usuario creado exitosamente");
