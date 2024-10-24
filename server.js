@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("node:path");
 require("dotenv").config(); // Cargar las variables de entorno desde el archivo .env
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 // Variables de entorno
 const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
@@ -18,6 +19,10 @@ const app = express();
 
 // Middleware para procesar solicitudes con cuerpo en formato JSON
 app.use(express.json());
+
+// Habilitar CORS solo para ciertas rutas o métodos
+app.use(cors({ origin: "http://localhost:3000" }));
+app.disable("x-powered-by");
 
 // Middleware para servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, "public")));

@@ -1,6 +1,5 @@
 const express = require("express");
 const Album = require("../models/album.model");
-const Song = require("../models/song.model");
 const route = express.Router();
 
 route.get("/", (request, response) => {
@@ -12,7 +11,7 @@ route.get("/", (request, response) => {
 });
 
 // Crear un nuevo álbum
-// Ruta: POST /albums/add
+// Ruta: POST api/album/add
 route.post("/add", async (request, response) => {
   try {
     const { title, description, year, band, cover } = request.body;
@@ -55,6 +54,60 @@ route.post("/add", async (request, response) => {
       message: "Ocurrió un error en el servidor",
       error: error.message,
     });
+  }
+});
+
+// Ruta para agregar una canción a un álbum
+route.post("/:albumId/song", async (req, res) => {
+  try {
+    const { albumId } = req.params;
+    const newSong = req.body; // Información de la canción enviada en el cuerpo de la solicitud
+
+    // Buscar el álbum por ID
+    const album = await Album.findById(albumId);
+    if (!album) {
+      return res.status(404).json({ message: "Álbum no encontrado" });
+    }
+
+    // Validar canciones duplicadas antes de agregar
+    if (!album.songs.some((song) => song.title === newSong.title)) {
+      album.songs.push(newSong); // Agregar la nueva canción al álbum
+      await album.save(); // Guardar el álbum con la nueva canción
+      res.status(200).json({ message: "Canción agregada exitosamente", album });
+    } else {
+      res.status(400).json({ message: "La canción ya existe en el álbum" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error al agregar la canción", error });
+  }
+});
+
+// Ruta para eliminar una canción de un álbum
+route.delete("/albums/:albumId/songs/:songId", async (req, res) => {
+  try {
+    const { albumId, songId } = req.params;
+
+    // Buscar el álbum por ID
+    const album = await Album.findById(albumId);
+    if (!album) {
+      return res.status(404).json({ message: "Álbum no encontrado" });
+    }
+
+    // Filtrar las canciones para eliminar la que tiene el ID especificado
+    const updatedSongs = album.songs.filter(
+      (song) => song._id.toString() !== songId
+    );
+
+    if (updatedSongs.length === album.songs.length) {
+      return res.status(404).json({ message: "Canción no encontrada" });
+    }
+
+    album.songs = updatedSongs; // Actualizar las canciones en el álbum
+    await album.save(); // Guardar los cambios en el álbum
+
+    res.status(200).json({ message: "Canción eliminada exitosamente", album });
+  } catch (error) {
+    res.status(500).json({ message: "Error al eliminar la canción", error });
   }
 });
 
@@ -159,71 +212,6 @@ route.get("/by-title", async (request, response) => {
       message: `Álbum con título '${title}' obtenido exitosamente.`,
       album,
     });
-  } catch (error) {
-    // Manejo de errores
-    response
-      .status(500)
-      .json({ message: "Error interno del servidor", error: error.message });
-  }
-});
-
-// Ruta para agregar una canción a un álbum
-// PUT /api/album/:id/song/add
-route.put("/:id/song/add", async (req, res) => {
-  try {
-    const album = await Album.findById(req.params.id);
-    if (!album) return res.status(404).json({ message: "Álbum no encontrado" });
-
-    const { title, duration } = req.body;
-
-    // Verificar si la canción ya existe
-    const songExists = album.songs.some((c) => c.title === title);
-    if (songExists) {
-      return res
-        .status(400)
-        .json({ message: "La canción ya existe en el álbum" });
-    }
-
-    // Crear una nueva canción y agregarla al álbum
-    const newSong = new Song({ title, duration });
-    album.songs.push(newSong);
-    await album.save();
-
-    res.status(200).json({ message: "Canción agregada exitosamente", album });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-// Ruta para eliminar una canción de un álbum específico usando IDs en la URL
-// DELETE /api/album/:albumId/song/:songId
-route.delete("/:albumId/song/:songId", async (request, response) => {
-  try {
-    // Buscar el álbum por ID
-    const album = await Album.findById(request.params.albumId);
-    if (!album) {
-      return response.status(404).json({ message: "Álbum no encontrado" });
-    }
-
-    // Buscar la canción por ID en el array de canciones del álbum
-    const songIndex = album.songs.findIndex(
-      (song) => song._id.toString() === request.params.songId
-    );
-    if (songIndex === -1) {
-      return response
-        .status(404)
-        .json({ message: "La canción no fue encontrada en el álbum" });
-    }
-
-    // Eliminar la canción del array de canciones del álbum
-    album.songs.splice(songIndex, 1);
-    // Guardar los cambios
-    await album.save();
-
-    // Responder con éxito y enviar el álbum actualizado
-    response
-      .status(200)
-      .json({ message: "Canción eliminada exitosamente", album });
   } catch (error) {
     // Manejo de errores
     response

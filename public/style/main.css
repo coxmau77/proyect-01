@@ -63,3 +63,12 @@ button:disabled {
         width: 100%;
     }
 }
+
+label {
+    color: #00ffff;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+}

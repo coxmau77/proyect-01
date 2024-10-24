@@ -175,46 +175,52 @@
     </header>
 
     <main class="p-6">
-        <!-- contenido de tours con las fechas importantes -->
-        <h1 id="welcome"
-            class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-            Agregar un disco</h1>
+        <!-- contenido de todos los albums -->
 
-        <form id="albumForm">
+        <main class="p-6">
+            <h1 id="welcome"
+                class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+                Agregar Nuevo Álbum</h1>
             <div>
-                <label for="titulo">Título del álbum:</label>
-                <input type="text" id="titulo" name="titulo" required minlength="1" maxlength="100" />
+                <a class="dark:text-white text-gray-900" href="./index.html">{{index.html}}</a>
+                <a class=" dark:text-white text-gray-900" href="./signin.html">{{signin.html}}</a>
+                <a class="active dark:text-white text-gray-900" href="./albums.html">{{albums.html}}</a>
             </div>
 
-            <div>
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" required minlength="5" maxlength="200"></textarea>
-            </div>
+            <br>
+            <br>
+            <br>
+            <form id="albumForm">
+                <label for="title">Título del Álbum:</label><br>
+                <input type="text" id="title" name="title" required>
+                <span id="titleError" class="error"></span><br><br>
 
-            <div>
-                <label for="anio">Año de lanzamiento:</label>
-                <input type="number" id="anio" name="anio" required min="1" />
-            </div>
+                <label for="description">Descripción:</label><br>
+                <!-- <input type="text" id="description" name="description" required> -->
+                <textarea name="description" id="description" placeholder="Agrega la descripción del album..." rows="4"
+                    cols="30" required></textarea>
+                <span id="descriptionError" class="error"></span><br><br>
 
-            <div>
-                <label for="canciones">Canciones:</label>
-                <div id="canciones">
-                    <div class="cancion">
-                        <input type="text" name="cancionTitulo" placeholder="Título de la canción" required />
-                        <input type="number" name="cancionDuracion" placeholder="Duración en segundos" required
-                            min="1" />
-                    </div>
-                </div>
-                <button type="button" onclick="agregarCancion()">Agregar canción</button>
-            </div>
+                <label for="year">Año de Lanzamiento:</label><br>
+                <input type="number" id="year" name="year" required>
+                <span id="yearError" class="error"></span><br><br>
 
-            <div>
-                <label for="portada">URL de la portada:</label>
-                <input type="url" id="portada" name="portada" required />
-            </div>
+                <label for="band">Nombre de la Banda:</label><br>
+                <input type="text" id="band" name="band" required>
+                <span id="bandError" class="error"></span><br><br>
 
-            <button type="submit">Agregar álbum</button>
-        </form>
+                <label for="cover">URL de la Portada:</label><br>
+                <input type="text" id="cover" name="cover" required>
+                <span id="coverError" class="error"></span><br><br>
+
+                <!-- <button type="submit">Agregar Álbum</button> -->
+                <button type="submit"
+                    class="w-full text-white bg-green-400 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-400 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Crear
+                    Agregar Álbum</button>
+            </form>
+
+            <p id="message"></p>
+        </main>
 
         <!-- Mensajes de error -->
         <div id="errorMessages"></div>
@@ -334,6 +340,9 @@
     </div>
 
     <script src="./script/tailwind-scripts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./script/albums.js"></script>
+
     <script>
         function agregarCancion() {
             const cancionDiv = document.createElement("div");
