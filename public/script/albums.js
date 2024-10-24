@@ -51,7 +51,7 @@ document.getElementById("albumForm").addEventListener("submit", function (e) {
 
   // Enviar los datos al backend usando Axios
   axios
-    .post("http://localhost:3000/api/album/add", albumData)
+    .post("/add", albumData)
     .then((response) => {
       // Mostrar mensaje de éxito
       document.getElementById("message").textContent =
