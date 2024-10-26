@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // Variables de entorno
 const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
-const port = 3000; // Puerto de la aplicación
+const port = process.env.PORT || 3000; // Puerto de la aplicación
 
 // Rutas
 // const userRoute = require("./routes/user.route");

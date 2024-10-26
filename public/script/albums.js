@@ -49,7 +49,7 @@ document.getElementById("albumForm").addEventListener("submit", function (e) {
   // Si hay errores, no enviar la solicitud
   if (hasError) return;
 
-  // Enviar los datos al backend usando Axios
+  // Enviar los datos al backend usando Axios api/album/add
   axios
     .post("/add", albumData)
     .then((response) => {
