@@ -1,8 +1,8 @@
 const express = require("express");
 const Album = require("../models/album.model");
-const route = express.Router();
+const router = express.Router();
 
-route.get("/", (request, response) => {
+router.get("/", async (request, response) => {
   // res.send("Funciona okk");
   response.status(200).json({
     message:
@@ -12,7 +12,7 @@ route.get("/", (request, response) => {
 
 // Crear un nuevo álbum
 // Ruta: POST api/album/add
-route.post("/add", async (request, response) => {
+router.post("/add", async (request, response) => {
   try {
     const { title, description, year, band, cover } = request.body;
 
@@ -57,8 +57,18 @@ route.post("/add", async (request, response) => {
   }
 });
 
+// Ruta para obtener todos los álbumes
+router.get("/albums", async (request, response) => {
+  try {
+    const albums = await Album.find(); // Consulta todos los álbumes
+    response.status(200).json(albums); // Devuelve los álbumes en formato JSON
+  } catch (error) {
+    response.status(500).json({ message: "Error al obtener álbumes" });
+  }
+});
+
 // Ruta para agregar una canción a un álbum
-route.post("/:albumId/song", async (req, res) => {
+router.post("/:albumId/song", async (req, res) => {
   try {
     const { albumId } = req.params;
     const newSong = req.body; // Información de la canción enviada en el cuerpo de la solicitud
@@ -83,7 +93,7 @@ route.post("/:albumId/song", async (req, res) => {
 });
 
 // Ruta para eliminar una canción de un álbum
-route.delete("/albums/:albumId/songs/:songId", async (req, res) => {
+router.delete("/albums/:albumId/songs/:songId", async (req, res) => {
   try {
     const { albumId, songId } = req.params;
 
@@ -114,7 +124,7 @@ route.delete("/albums/:albumId/songs/:songId", async (req, res) => {
 // Si no se especifica el parámetro limit, se obtendrán 10 álbumes por defecto.
 // Ruta para obtener una cantidad específica de álbumes
 // GET > /api/album/all?limit=3
-route.get("/all", async (request, response) => {
+router.get("/all", async (request, response) => {
   try {
     // Obtener el parámetro "limit" de la consulta, por defecto 10 si no se especifica
     const limit = parseInt(request.query.limit) || 10;
@@ -141,7 +151,7 @@ route.get("/all", async (request, response) => {
 });
 
 // Ruta para obtener álbumes por nombre de banda
-route.get("/by-band", async (request, response) => {
+router.get("/by-band", async (request, response) => {
   try {
     // Obtener el nombre de la banda desde los parámetros de consulta
     const { band } = request.query;
@@ -182,7 +192,7 @@ route.get("/by-band", async (request, response) => {
 // Ruta para obtener álbum por título
 // GET > /api/album/by-title?title=Appetite for Destruction
 // GET > /api/album/by-title?title=Appetite FOR DestructiON
-route.get("/by-title", async (request, response) => {
+router.get("/by-title", async (request, response) => {
   try {
     // Obtener el título del álbum desde los parámetros de consulta
     const { title } = request.query;
@@ -222,7 +232,7 @@ route.get("/by-title", async (request, response) => {
 
 // Ruta para obtener un álbum por ID
 // GET /api/album/:id
-route.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const album = await Album.findById(req.params.id);
     if (!album) return res.status(404).json({ message: "Álbum no encontrado" });
@@ -235,7 +245,7 @@ route.get("/:id", async (req, res) => {
 
 // Ruta para eliminar un álbum por ID
 // DELETE /api/album/:id
-route.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const album = await Album.findByIdAndDelete(req.params.id);
     if (!album) return res.status(404).json({ message: "Álbum no encontrado" });
@@ -246,4 +256,4 @@ route.delete("/:id", async (req, res) => {
   }
 });
 
-module.exports = route;
+module.exports = router;

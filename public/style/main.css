@@ -72,3 +72,23 @@ label {
     color: red;
     font-size: 0.9em;
 }
+
+.album-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+}
+
+.button-group button {
+    margin: 5px;
+    padding: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.button-group button:hover {
+    background-color: #0056b3;
+}
