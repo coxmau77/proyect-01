@@ -2,9 +2,10 @@
 // startServer();
 const express = require("express");
 const path = require("node:path");
-require("dotenv").config(); // Cargar las variables de entorno desde el archivo .env
 const mongoose = require("mongoose");
+const app = express();
 const cors = require("cors");
+require("dotenv").config(); // Cargar las variables de entorno desde el archivo .env
 
 // Variables de entorno
 const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
@@ -14,8 +15,6 @@ const port = process.env.PORT || 3000; // Puerto de la aplicación
 // const userRoute = require("./routes/user.route");
 // const albumRoute = require("./routes/album.route");
 const routes = require("./routes"); // modularización de las rutas
-
-const app = express();
 
 // Middleware para procesar solicitudes con cuerpo en formato JSON
 app.use(express.json());
