@@ -20,7 +20,7 @@ const routes = require("./routes"); // modularización de las rutas
 app.use(express.json());
 
 // Habilitar CORS solo para ciertas rutas o métodos
-app.use(cors({ origin: "http://localhost:3000/" }));
+app.use(cors({ origin: "http://localhost:3000" }));
 app.disable("x-powered-by"); // Oculta el nobre de la biblioteca Express
 
 // Middleware para servir archivos estáticos desde la carpeta "public"
