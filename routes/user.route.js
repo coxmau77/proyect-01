@@ -1,12 +1,14 @@
 const express = require("express");
 const User = require("../models/user.model");
-const route = express.Router();
+const router = express.Router();
+const bcrypt = require("bcrypt"); // Para comparar contraseñas encriptadas
+const jwt = require("jsonwebtoken"); // Para generar tokens JWT
 
 /**RUTAS ESTÁTICAS */
 
 // Ruta principal index de usuarios
 // Ruta: GET /api/user
-route.get("/", (request, response) => {
+router.get("/", (request, response) => {
   response.status(200).json({
     message:
       "Ruta Backend default, seria como el index de las rutas donde gestionas todo lo relacionado a usuarios, alta, baja o modificaciones",
@@ -15,45 +17,76 @@ route.get("/", (request, response) => {
 
 // Crear un nuevo usuario
 // Ruta: POST /api/user/signin
-// Se espera recibir un cuerpo con los datos del usuario
-route.post("/signin", async (request, response) => {
+// Se espera recibir un cuerpo con los datos del usuario, incluyendo email, edad y contraseña
+router.post("/signin", async (request, response) => {
   try {
-    const { email, age } = request.body;
+    const { email, age, password } = request.body;
 
-    // Verificar si el email ya está registrado
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return response
-        .status(400)
-        .json({ message: `El email -{ ${email} }- ya es usuario registrado` });
+      return response.status(400).json({
+        message: `El email - { ${email} } - ya está registrado`,
+      });
     }
 
-    // Verificar si la edad cumple con el requisito mínimo
     if (age < 12) {
-      return response
-        .status(400)
-        .json({ message: "La edad mínima permitida es de 12 años" });
+      return response.status(400).json({
+        message: "La edad mínima permitida es de 12 años",
+      });
     }
 
-    // Crear el nuevo usuario
-    const newUser = new User(request.body);
-    await newUser.save();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ ...request.body, password: hashedPassword });
 
-    // Respuesta exitosa
+    await newUser.save();
     response.status(201).json({
       message: "Usuario creado exitosamente",
-      user: newUser,
+      user: { id: newUser._id, email: newUser.email, age: newUser.age },
     });
   } catch (error) {
-    // Captura los mensajes de validación de Mongoose
     if (error.name === "ValidationError") {
       const validationErrors = Object.values(error.errors).map(
         (err) => err.message
       );
       return response.status(400).json({ message: validationErrors });
     }
-
     response.status(500).json({ message: "Error en el servidor" });
+  }
+});
+
+// Ruta de Login
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Buscar el usuario por su email
+    const user = await User.findOne({ email });
+
+    // Si el usuario no existe, enviar un error
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Comparar la contraseña proporcionada con la contraseña encriptada en la base de datos
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Contraseña incorrecta" });
+    }
+
+    // Generar un token JWT si las credenciales son válidas
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET, // Clave secreta para firmar el token
+      { expiresIn: "5h" } // Tiempo de expiración del token
+    );
+
+    // console.log(">>> ", token);
+    // Retornar el token al cliente
+    res.json({ token });
+  } catch (error) {
+    console.error("Error en la autenticación", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 });
 
@@ -61,7 +94,7 @@ route.post("/signin", async (request, response) => {
 // Ruta: GET /api/user/all
 // Ruta: GET /api/user/all?limit=1
 // Devuelve un arreglo con todos los usuarios, excluyendo sus contraseñas
-route.get("/all", async (request, response) => {
+router.get("/all", async (request, response) => {
   try {
     // Obtener el parámetro "limit" de la consulta, con un valor predeterminado de 10
     const limit = parseInt(request.query.limit) || 10;
@@ -94,7 +127,7 @@ route.get("/all", async (request, response) => {
 // Ruta para obtener todos los datos de usuarios con un límite, inclusive la contraseñas
 // Ruta: GET /api/user/private
 // Ruta: GET /api/user/private?limit=1
-route.get("/private", async (request, response) => {
+router.get("/private", async (request, response) => {
   try {
     // Obtener el parámetro "limit" de la consulta, con un valor predeterminado de 10
     const limit = parseInt(request.query.limit) || 10;
@@ -125,7 +158,7 @@ route.get("/private", async (request, response) => {
 // Rutas de prueba
 // Ruta: GET /users/prueba
 // Devuelve un mensaje simple para verificar que el servidor está funcionando
-route.get("/prueba", (request, response) => {
+router.get("/prueba", (request, response) => {
   response.send("Ruta de prueba para verificar el servidor");
 });
 
@@ -133,7 +166,7 @@ route.get("/prueba", (request, response) => {
 
 // Obtener un usuario por ID
 // Ruta: GET /api/user/:id
-route.get("/:id", async (request, response) => {
+router.get("/:id", async (request, response) => {
   // console.log(request.params.id);
   try {
     const userId = request.params.id;
@@ -153,9 +186,29 @@ route.get("/:id", async (request, response) => {
   }
 });
 
+router.get("/private/:id", async (request, response) => {
+  // console.log(request.params.id);
+  try {
+    const userId = request.params.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return response.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    response.status(200).json({
+      message: "Datos sencibles de Usuario encontrado exitosamente",
+      user,
+    });
+  } catch (error) {
+    response.status(500).json({ message: error.message });
+  }
+});
+
 // Buscar un usuario por correo electrónico
 // Ruta: GET /users/:email
-route.get("/email/:email", async (request, response) => {
+router.get("/email/:email", async (request, response) => {
   try {
     const email = request.params.email;
 
@@ -176,7 +229,7 @@ route.get("/email/:email", async (request, response) => {
 
 // Ruta para encontrar un usuario por su nombre exácto
 // Ruta GET /api/user/name/:name
-route.get("/name/:name", async (request, response) => {
+router.get("/name/:name", async (request, response) => {
   try {
     // Obtener el nombre de los parámetros de la ruta
     const { name } = request.params;
@@ -210,7 +263,7 @@ route.get("/name/:name", async (request, response) => {
 // Actualizar un usuario por ID (PUT)
 // Ruta: PUT /users/:id
 // Se actualizan todos los campos del usuario
-route.put("/:id", async (request, response) => {
+router.put("/:id", async (request, response) => {
   try {
     const user = await User.findByIdAndUpdate(request.params.id, request.body, {
       new: true, // Para devolver el usuario actualizado
@@ -232,7 +285,7 @@ route.put("/:id", async (request, response) => {
 // Actualización parcial de un usuario (PATCH)
 // Ruta: PATCH /users/:id
 // Actualiza solo los campos que se envíen en el request
-route.patch("/:id", async (request, response) => {
+router.patch("/:id", async (request, response) => {
   try {
     const user = await User.findByIdAndUpdate(request.params.id, request.body, {
       new: true, // Para devolver el usuario actualizado
@@ -254,7 +307,7 @@ route.patch("/:id", async (request, response) => {
 // Eliminar un usuario por ID
 // Ruta: DELETE /users/:id
 // Elimina un usuario de la base de datos y devuelve el nombre del usuario eliminado
-route.delete("/:id", async (request, response) => {
+router.delete("/:id", async (request, response) => {
   try {
     // Buscar y eliminar el usuario por su ID
     const user = await User.findByIdAndDelete(request.params.id);
@@ -274,4 +327,4 @@ route.delete("/:id", async (request, response) => {
   }
 });
 
-module.exports = route;
+module.exports = router;
