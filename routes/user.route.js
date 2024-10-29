@@ -70,6 +70,7 @@ router.post("/login", async (req, res) => {
     // Comparar la contraseña proporcionada con la contraseña encriptada en la base de datos
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
+    // Si la contraseña no es válida, enviar un error
     if (!isPasswordValid) {
       return res.status(401).json({ message: "Contraseña incorrecta" });
     }
@@ -81,11 +82,11 @@ router.post("/login", async (req, res) => {
       { expiresIn: "5h" } // Tiempo de expiración del token
     );
 
-    // console.log(">>> ", token);
-    // Retornar el token al cliente
+    // Retornar el token y los datos del usuario al cliente
     res.json({ token, user });
   } catch (error) {
     console.error("Error en la autenticación", error);
+    // Responder con un error 500 si ocurre un problema en el servidor
     res.status(500).json({ message: "Error interno del servidor" });
   }
 });
