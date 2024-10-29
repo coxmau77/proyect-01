@@ -20,7 +20,24 @@ const routes = require("./routes"); // modularización de las rutas
 app.use(express.json());
 
 // Habilitar CORS solo para ciertas rutas o métodos
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const ACCEPTED_ORIGINS = [
+        "https://proyect-01.onrender.com",
+        "http://localhost:3000",
+      ];
+
+      if (ACCEPTED_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+      if (!origin) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS Baby!"));
+    },
+  })
+);
 app.disable("x-powered-by"); // Oculta el nobre de la biblioteca Express
 
 // Middleware para servir archivos estáticos desde la carpeta "public"
