@@ -29,6 +29,7 @@ app.use(
       const ACCEPTED_ORIGINS = [
         "https://proyect-01.onrender.com",
         "http://localhost:3000",
+        "https://proyect-01.vercel.app",
       ];
 
       if (ACCEPTED_ORIGINS.includes(origin)) {
