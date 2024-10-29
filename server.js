@@ -11,6 +11,9 @@ require("dotenv").config(); // Cargar las variables de entorno desde el archivo 
 const urlDb = process.env.DB_URI_DRIVERS; // URL de la base de datos
 const port = process.env.PORT || 3000; // Puerto de la aplicación
 
+// Health Check Path : para hacer nuestro deploy, Render nos pide que agregamos una ruta a la cual hará requests periódicamente para comprobar la salud de la app.
+app.use("/health", (req, res) => res.sendStatus(200));
+
 // Rutas
 // const userRoute = require("./routes/user.route");
 // const albumRoute = require("./routes/album.route");
