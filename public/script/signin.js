@@ -49,7 +49,7 @@ async function submitForm(userData) {
     if (error.response && error.response.data.message) {
       alert(`Error: ${error.response.data.message}`);
     } else {
-      alert("Error al conectar con el servidor");
+      alert("Error al conectar con el servidor", error);
     }
   }
 }
