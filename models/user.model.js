@@ -1,8 +1,9 @@
 // user.model.js
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt"); // Asegúrate de importar bcrypt
+const bcrypt = require("bcrypt"); // Importamos bcrypt para el hash de contraseñas
 const { Schema } = mongoose;
 
+// Definimos el esquema de usuario con validaciones adicionales
 const userSchema = new Schema(
   {
     name: {
@@ -56,10 +57,18 @@ const userSchema = new Schema(
     },
   },
   {
-    collection: "usuarios",
-    timestamps: true,
+    collection: "usuarios", // Nombre de la colección en MongoDB
+    timestamps: true, // Añade automáticamente createdAt y updatedAt
   }
 );
+
+// Middleware para hashear la contraseña antes de guardar el usuario
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 

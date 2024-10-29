@@ -1,7 +1,7 @@
 // Captura los datos del formulario y devuelve un objeto con los valores
 function getFormData() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
   const age = parseInt(document.getElementById("age").value);
@@ -10,7 +10,6 @@ function getFormData() {
 }
 
 // Valida los datos del formulario
-
 function validateFormData(userData) {
   if (!userData.name || userData.name.length < 3) {
     alert("El nombre debe tener al menos 3 caracteres");
@@ -38,6 +37,7 @@ function validateFormData(userData) {
 // Envía los datos del formulario al backend
 async function submitForm(userData) {
   try {
+    // Eliminamos confirmPassword antes de enviar
     delete userData.confirmPassword;
 
     const response = await axios.post(
@@ -49,21 +49,23 @@ async function submitForm(userData) {
     if (error.response && error.response.data.message) {
       alert(`Error: ${error.response.data.message}`);
     } else {
-      alert("Error al conectar con el servidor", error);
+      console.error("Error al conectar con el servidor:", error);
+      alert("Error al conectar con el servidor");
     }
   }
 }
 
 // Maneja el evento submit del formulario
 function handleFormSubmit(event) {
-  event.preventDefault();
+  event.preventDefault(); // Evita la recarga de la página
 
   const userData = getFormData();
   if (validateFormData(userData)) {
     submitForm(userData);
   }
 }
-// Agregar el event listener al formulario
+
+// Agrega el event listener al formulario de registro
 document
   .getElementById("signinForm")
   .addEventListener("submit", handleFormSubmit);
